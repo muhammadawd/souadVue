@@ -23,6 +23,7 @@ export default new MLCreate({
             about_us: 'About US',
             contact_us: 'Contact Us',
             search_placeholder: 'Search here ... ',
+            latest_versions: 'Latest Versions',
         }),
 
         new MLanguage('arabic').create({
@@ -41,6 +42,7 @@ export default new MLCreate({
             about_us: 'عن الدار',
             contact_us: 'اتصل بنا',
             search_placeholder: 'اكتب كلمة البحث ..',
+            latest_versions: 'احدث الاصدارات ',
         })
     ]
 })

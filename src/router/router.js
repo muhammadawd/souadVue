@@ -19,6 +19,9 @@ import Router from 'vue-router'
 */
 import Home from '../view/pages/Home'
 import AboutUs from '../view/pages/AboutUs'
+import Audios from '../view/pages/Audios'
+
+import PageNotFound from '../view/errors/PageNotFound'
 
 /**
  * register packages
@@ -33,6 +36,14 @@ let router = new Router({
     mode: 'hash',
     routes: [
         {
+            path: "*",
+            component: PageNotFound,
+            meta: {
+                requiresAuth: false,
+                guest: true
+            }
+        },
+        {
             path: '/',
             name: 'home',
             component: Home,
@@ -45,6 +56,15 @@ let router = new Router({
             path: '/about_us',
             name: 'about_us',
             component: AboutUs,
+            meta: {
+                requiresAuth: false,
+                guest: true
+            }
+        },
+        {
+            path: '/audio-playlist',
+            name: 'audios',
+            component: Audios,
             meta: {
                 requiresAuth: false,
                 guest: true

@@ -1645,18 +1645,19 @@ textarea.input {
 }
 
 .bookitem img {
-    max-height: 300px;
+    max-height: 280px;
+    min-height: 280px;
 }
 
 .bookitem {
-    box-shadow: 2px 9px 7px #000000f0;
+    box-shadow: 2px 9px 7px #00000094   ;
     border-radius: 5px;
     overflow: hidden;
 }
 
 .main-bg {
     background: #e9effb;
-    min-height: 300px;
+    min-height: 420px;
 }
 
 .swiper-container {

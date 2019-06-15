@@ -21,7 +21,12 @@
                 <li><a href="#">{{$ml.get('dar_versions')}}</a></li>
                 <li><a href="#">{{$ml.get('gallery')}}</a></li>
                 <li><a href="#">{{$ml.get('videos')}}</a></li>
-                <li><a href="#">{{$ml.get('audios')}}</a></li>
+                <li>
+                    <router-link :to="{ name: 'audios'}"
+                                 tag="a" active-class="active"
+                                 exact-active-class="active">{{$ml.get('audios')}}
+                    </router-link>
+                </li>
                 <li>
                     <router-link :to="{ name: 'about_us'}"
                                  tag="a" active-class="active"
