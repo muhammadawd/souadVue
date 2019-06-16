@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluids" style="padding: 0 15px">
         <div class="row" style="background: rgb(144, 142, 142)">
             <div class="col-md-4">
                 <div id="container">

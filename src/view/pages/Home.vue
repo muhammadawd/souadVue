@@ -2,12 +2,16 @@
     <div>
         <Loader/>
         <Header/>
+        <Slider/>
+        <News/>
+        <Calender/>
         <Books/>
-        <!--<Footer/>-->
+        <Footer/>
     </div>
 </template>
 
 <script>
+    /* eslint-disable */
     // import css files
     import '@/assets/css/bootstrap.min.css';
     import '@/assets/css/bootstrap-rtl.css';
@@ -22,11 +26,14 @@
     import Header from '../components/mainComponents/Header'
     import Footer from '../components/mainComponents/Footer'
 
+    import Slider from '../components/homeComponents/Slider'
+    import News from '../components/homeComponents/News'
+    import Calender from '../components/homeComponents/Calender'
     import Books from '../components/homeComponents/Books'
 
     export default {
         name: "Home",
-        components: {Loader, Header, Books, Footer},
+        components: {Loader, Header, Slider, News, Calender, Books, Footer},
         mounted() {
         },
         data() {

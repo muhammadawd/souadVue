@@ -4,7 +4,7 @@ try {
   window.$ = window.jQuery = require('jquery')
 
 } catch (e) {
-  console.error('jquery not found')
+  // console.error('jquery not found')
 }
 
 try {
@@ -16,5 +16,5 @@ try {
   }
 
 } catch (e) {
-  console.error('axios not found')
+  // console.error('axios not found')
 }

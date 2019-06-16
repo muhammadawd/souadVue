@@ -4,11 +4,10 @@ body {
     color: #505050;
     font-weight: 400;
     overflow-x: hidden !important;
-    zoom: 90%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'M#nav-bottom aontserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #11151c;
     font-weight: 700;
     margin: 0px 0px 15px;
@@ -322,12 +321,6 @@ textarea.input {
 
 #nav-bottom a {
     color: #FFF;
-}
-
-#nav-bottom a.active {
-    color: #000;
-    font-weight: bold;
-    font-size: 22px;
 }
 
 #nav-bottom a:hover {
@@ -1571,6 +1564,10 @@ textarea.input {
     margin-top: 50px;
 }
 
+.mt-2 {
+    margin-top: 20px;
+}
+
 .service_element {
     position: relative;
     background-color: #83a6e4;
@@ -1649,8 +1646,12 @@ textarea.input {
     min-height: 280px;
 }
 
+.owl-carousel .owl-stage {
+    min-height: 300px;
+}
+
 .bookitem {
-    box-shadow: 2px 9px 7px #00000094   ;
+    box-shadow: 2px 9px 7px #000000a3;
     border-radius: 5px;
     overflow: hidden;
 }
@@ -1794,4 +1795,87 @@ textarea.input {
     font-size: 35px;
     color: #fff;
     z-index: 99;
+}
+
+
+.lSSlideOuter .lSPager.lSGallery img {
+    /*width: 100%;*/
+}
+
+#lightSlider ul {
+    list-style: none outside none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+#lightSlider li {
+    display: block;
+    float: right;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+#lightSlider img {
+    display: block;
+    height: auto;
+    width: 100%;
+}
+
+.main-color {
+    color: #346bca;
+}
+
+.contact-p {
+    display: inline-block;
+    font-size: 15px;
+    position: relative;
+    bottom: 5px;
+    right: 20px;
+}
+
+.icon-content {
+    text-align: center;
+    display: inline-block;
+}
+
+.icon-content i {
+    text-align: center;
+    max-width: 20px;
+}
+
+.social_element {
+    background: url("../images/socail.jpg");
+    background-size: 135px;
+    width: 41px;
+    height: 40px;
+}
+
+.social_bg_fb {
+    background-position: -3px -7px;
+}
+
+.social_bg_tw {
+    background-position: -47px -7px;
+    margin-right: 10px;
+}
+
+.social_bg_ns {
+    background-position: -90px -7px;
+    margin-right: 10px;
+}
+
+.gallery-item img {
+    width: 100%;
+}
+
+.gallery-item {
+    margin-bottom: 15px;
+    box-shadow: 11px 2px 16px #ddd;
+}
+
+.form_contact {
+    margin-top: 50px;
+}
+.contact-icons li{
+    margin-bottom: 10px;
 }

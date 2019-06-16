@@ -2,7 +2,7 @@
     <div>
         <Loader/>
         <Header/>
-        <AudioPlaylist/>
+        <VideosPlaylist/>
 
         <Footer/>
     </div>
@@ -26,12 +26,12 @@
     // register import components files
     import Loader from '../components/mainComponents/Loader'
     import Header from '../components/mainComponents/Header'
-    import AudioPlaylist from '../components/audioComponents/AudioPlaylist'
+    import VideosPlaylist from '../components/videoComponents/VideosPlaylist'
     import Footer from '../components/mainComponents/Footer'
 
     export default {
-        name: "Audios",
-        components: {Loader, Header, AudioPlaylist, Footer},
+        name: "Videos",
+        components: {Loader, Header, VideosPlaylist, Footer},
         mounted() {
         },
         data() {

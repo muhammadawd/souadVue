@@ -4,13 +4,28 @@ body, .section, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, div, .ui-i
     font-family: 'Tajawal', sans-serif !important;
 }
 
-.direction{
-    direction: rtl!important;
+.direction {
+    direction: rtl !important;
 }
-.post.post-widget .post-img{
+
+.post.post-widget .post-img {
     float: right;
 }
-.post.post-widget .post-body{
+
+.post.post-row .post-img {
+    float: right;
+    width: 34%;
+}
+
+.post.post-row .post-body {
+    margin: 0px 200px 0px 0px;
+}
+
+.post.post-widget .post-body {
 
     margin: 0px 150px 0px 0px;
+}
+p{
+
+    margin: 0px 0px 0 0;
 }

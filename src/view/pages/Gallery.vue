@@ -2,8 +2,7 @@
     <div>
         <Loader/>
         <Header/>
-        <AudioPlaylist/>
-
+        <GalleryList/>
         <Footer/>
     </div>
 </template>
@@ -16,9 +15,6 @@
     import '@/assets/css/bootstrap-rtl.css';
     import '@/assets/css/style.css';
     import '@/assets/css/swiper.min.css';
-    import '@/assets/css/owl.carousel.min.css';
-    import '@/assets/css/owl.theme.default.min.css';
-    import '@/assets/css/owl.theme.green.min.css';
     import '@/assets/js/packages/core/main.css';
     import '@/assets/js/packages/daygrid/main.css';
     import '@/assets/css/ar.css';
@@ -26,12 +22,12 @@
     // register import components files
     import Loader from '../components/mainComponents/Loader'
     import Header from '../components/mainComponents/Header'
-    import AudioPlaylist from '../components/audioComponents/AudioPlaylist'
+    import GalleryList from '../components/galleryComponents/GalleryList'
     import Footer from '../components/mainComponents/Footer'
 
     export default {
-        name: "Audios",
-        components: {Loader, Header, AudioPlaylist, Footer},
+        name: "Gallery",
+        components: {Loader, Header, GalleryList, Footer},
         mounted() {
         },
         data() {

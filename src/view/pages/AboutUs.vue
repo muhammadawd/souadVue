@@ -3,19 +3,19 @@
         <Loader/>
         <Header/>
         <HeaderTitle :title="$ml.get('about_us')"/>
-        <!--<Footer/>-->
+        <MainAbout/>
+        <Footer/>
     </div>
 </template>
 
 <script>
+    /* eslint-disable */
+
     // import css files
     import '@/assets/css/bootstrap.min.css';
     import '@/assets/css/bootstrap-rtl.css';
     import '@/assets/css/style.css';
-    import '@/assets/css/swiper.min.css';
-    import '@/assets/css/owl.carousel.min.css';
-    import '@/assets/css/owl.theme.default.min.css';
-    import '@/assets/css/owl.theme.green.min.css';
+    import '@/assets/css/lightslider.min.css';
     import '@/assets/js/packages/core/main.css';
     import '@/assets/js/packages/daygrid/main.css';
     import '@/assets/css/ar.css';
@@ -24,11 +24,12 @@
     import Loader from '../components/mainComponents/Loader'
     import Header from '../components/mainComponents/Header'
     import HeaderTitle from '../components/mainComponents/HeaderTitle'
+    import MainAbout from '../components/aboutComponents/MainAbout'
     import Footer from '../components/mainComponents/Footer'
 
     export default {
         name: "AboutUs",
-        components: {Loader, Header, HeaderTitle, Footer},
+        components: {Loader, Header, HeaderTitle, MainAbout, Footer},
         mounted() {
         },
         data() {

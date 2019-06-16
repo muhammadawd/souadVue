@@ -10,7 +10,7 @@
                     <h1 class="title title-custom bg-transparent"> {{$ml.get('latest_versions')}}</h1>
                 </div>
                 <div class="owl-carousel owl-theme owl-carousel-books">
-                    <div class="item" v-for="book in books">
+                    <div class="item" v-for="(book,key) in books" :key="key">
                         <div class="bookitem">
                             <img :src="book.image" alt="">
                         </div>
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    /* eslint-disable */
+
     import '@/assets/css/owl.carousel.min.css';
     import '@/assets/css/owl.theme.default.min.css';
     import '@/assets/css/owl.theme.green.min.css';
@@ -52,6 +54,7 @@
         },
         methods: {
             owlFunctionality() {
+                console.log($)
                 window.fn = require('@/assets/js/owl.carousel.min.js');
 
                 $('.owl-carousel-books').owlCarousel({
