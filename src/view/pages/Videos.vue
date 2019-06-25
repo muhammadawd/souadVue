@@ -3,7 +3,6 @@
         <Loader/>
         <Header/>
         <VideosPlaylist/>
-
         <Footer/>
     </div>
 </template>

@@ -2,60 +2,20 @@
     <div>
 
         <div class="container">
-            <div class="row">
+            <div class="row" v-if="about">
                 <div class="col-md-12 mt-5">
                     <div class="section-title">
                         <h1 class="title title-custom bg-transparent">{{$ml.get('about_us')}}</h1>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <p>
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                        ........................ .............................. .......................... ............
-                    </p>
+                    <p v-html="about[currentLang].description"></p>
                 </div>
                 <div class="col-md-6">
                     <div style="width: 100%;direction: ltr">
                         <ul id="lightSlider">
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
-                            </li>
-                            <li data-thumb="https://via.placeholder.com/350x250">
-                                <img src="https://via.placeholder.com/350x250"/>
+                            <li v-for="(image , key) in about.images" :key="key" :data-thumb="image.fileName">
+                                <img :src="image.fileName"/>
                             </li>
                         </ul>
                     </div>
@@ -70,14 +30,25 @@
 </template>
 
 <script>
+    import apiServiesRoutes from '@/bootstrap/apiServiesRoutes'
+
     export default {
         name: "MainAbout",
-        mounted() {
-            this.sliderFunctionaliy();
+        data() {
+            return {
+                isLoading: false,
+                currentLang: this.$ml.current,
+                about: null
+            }
+        },
+        async created() {
+            require('@/assets/js/lightslider.min.js')
+            await this.getAboutData();
         },
         methods: {
             sliderFunctionaliy() {
                 require('@/assets/js/lightslider.min.js')
+
                 $('#lightSlider').lightSlider({
                     gallery: true,
                     item: 1,
@@ -85,11 +56,36 @@
                     slideMargin: 0,
                     thumbItem: 9
                 });
-            }
+            },
+
+            getAboutData() {
+                let vm = this;
+                vm.isLoading = true
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.ABOUT_ALL, {
+                    params: {
+                        lang: vm.currentLang,
+                    }
+                }).then(response => {
+                    if (response.data.status) {
+                        vm.about = response.data.data.about;
+                        setTimeout(() => {
+                            vm.sliderFunctionaliy();
+                        }, 1000)
+                        vm.isLoading = false
+                    }
+                })
+            },
         }
     }
 </script>
 
-<style scoped>
+<style>
+    #lightSlider img {
+        height: 400px;
+    }
 
+    .lSSlideOuter .lSPager.lSGallery img {
+        height: 65px !important;
+        width: 65px !important;
+    }
 </style>

@@ -18,7 +18,7 @@
             loaderFunctionality() {
                 setTimeout(() => {
                     $('.loader-overlay').fadeOut();
-                }, 300)
+                }, 1000)
             }
         }
     }

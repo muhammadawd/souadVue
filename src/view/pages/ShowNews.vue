@@ -26,10 +26,14 @@
     export default {
         name: "News",
         components: {Loader, Header, ViewNews, Footer},
-        mounted() {
+        created() {
+
         },
         data() {
             return {}
+        },
+        methods: {
+
         },
         computed: {}
     }

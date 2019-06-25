@@ -19,6 +19,12 @@
                     </router-link>
                 </li>
                 <li>
+                    <router-link :to="{ name: 'competitions'}"
+                                 tag="a" active-class="actives"
+                                 exact-active-class="active">{{$ml.get('competitions')}}
+                    </router-link>
+                </li>
+                <li>
                     <router-link :to="{ name: 'activities'}"
                                  tag="a" active-class="actives"
                                  exact-active-class="active">{{$ml.get('activities')}}
@@ -40,12 +46,6 @@
                     <router-link :to="{ name: 'articles'}"
                                  tag="a" active-class="actives"
                                  exact-active-class="active">{{$ml.get('articles')}}
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'competitions'}"
-                                 tag="a" active-class="actives"
-                                 exact-active-class="active">{{$ml.get('competitions')}}
                     </router-link>
                 </li>
                 <li>

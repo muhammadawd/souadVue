@@ -7,6 +7,8 @@
                 <li><a :href="staticInfo.facebook_url" target="_blank"><i class="fab fa-facebook"></i></a></li>
                 <li><a :href="staticInfo.twitter_url"><i class="fab fa-twitter" target="_blank"></i></a></li>
                 <li><a :href="staticInfo.instagram_url"><i class="fab fa-instagram" target="_blank"></i></a></li>
+                <li style="cursor: pointer"><a @click="changeLangEn"><b>En</b></a></li>
+                <li style="cursor: pointer"><a @click="changeLangAr"><b>AR</b></a></li>
             </ul>
             <!-- /social -->
 
@@ -52,6 +54,12 @@
             this.searchFunctionality();
         },
         methods: {
+            changeLangAr() {
+                this.$ml.change('ar')
+            },
+            changeLangEn() {
+                this.$ml.change('en')
+            },
             searchFunctionality() {
 
                 $('.search-btn').on('click', function () {

@@ -4,10 +4,10 @@ import {MLInstaller, MLCreate, MLanguage} from 'vue-multilanguage'
 Vue.use(MLInstaller)
 
 export default new MLCreate({
-    initial: 'english',
+    initial: 'ar',
     save: process.env.NODE_ENV === 'production',
     languages: [
-        new MLanguage('english').create({
+        new MLanguage('en').create({
             languages: 'english language',
             site_name: 'Souad Alsabah',
             home_page: 'Home',
@@ -42,6 +42,7 @@ export default new MLCreate({
             type_last_name: 'Type Last Name',
             type_subject: 'Type Subject',
             download: 'Download',
+            view: 'View',
             type_comment: 'Type Comment',
             share_facebook: 'Share On Facebook',
             share_twitter: 'Share On Twitter',
@@ -52,9 +53,13 @@ export default new MLCreate({
             competition_location: 'Competition Locaiton',
             winner_name: 'Winnner Name',
             type_phone: 'Type Phone',
+            no_data: 'No Data',
+            _error: 'Errors Happened',
+            _success: 'Success Happened',
+            tweet: 'Tweets',
         }),
 
-        new MLanguage('arabic').create({
+        new MLanguage('ar').create({
             languages: 'اللغة العربية',
             site_name: 'سعاد الصباح',
             home_page: 'الرئيسية',
@@ -89,6 +94,7 @@ export default new MLCreate({
             type_last_name: 'اكتب الاسم الاخير',
             type_subject: 'اكتب الموضوع',
             download: 'تحميل',
+            view: 'عرض',
             type_comment: 'اكتب تعليقك',
             share_facebook: 'شارك عن طريق فيس بوك',
             share_twitter: 'شارك عن طريق تويتر',
@@ -99,6 +105,10 @@ export default new MLCreate({
             competition_location: 'المكان',
             winner_name: 'اسم الفائز',
             type_phone: 'اكتب رقم الهاتف  ',
+            no_data: 'ﻻ توجد بيانات  ',
+            _error: 'حدث خطأ',
+            _success: 'تمت العملية بنجاح',
+            tweet: 'منشورات تويتر'
         })
     ]
 })

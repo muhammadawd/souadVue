@@ -4,6 +4,7 @@
         <Header/>
         <Slider/>
         <News/>
+        <!--        <NewsComponent/>-->
         <Calender/>
         <Books/>
         <Footer/>
@@ -12,6 +13,7 @@
 
 <script>
     /* eslint-disable */
+
     // import css files
     import '@/assets/css/bootstrap.min.css';
     import '@/assets/css/bootstrap-rtl.css';
@@ -25,15 +27,15 @@
     import Loader from '../components/mainComponents/Loader'
     import Header from '../components/mainComponents/Header'
     import Footer from '../components/mainComponents/Footer'
-
     import Slider from '../components/homeComponents/Slider'
     import News from '../components/homeComponents/News'
     import Calender from '../components/homeComponents/Calender'
     import Books from '../components/homeComponents/Books'
+    import NewsComponent from '../components/newsComponents/News'
 
     export default {
         name: "Home",
-        components: {Loader, Header, Slider, News, Calender, Books, Footer},
+        components: {Loader, Header, Slider, News, NewsComponent, Calender, Books, Footer},
         mounted() {
         },
         data() {

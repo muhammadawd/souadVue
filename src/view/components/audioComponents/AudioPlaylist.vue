@@ -62,45 +62,13 @@
                             <div class="mt-5"></div>
                             <div class="col-md-12">
                                 <ul id="playlist" class="list-group">
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/aEBf"
-                                        artist="Capital Kings"
-                                        title="Don't Wanna Wake Up"
-                                        cover="http://gdurl.com/Ssby">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>Don't Wanna
-                                        Wake Up
-                                    </li>
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/arOF"
-                                        artist="Citizen Way"
-                                        title="Bulletproof"
-                                        cover="https://images-na.ssl-images-amazon.com/images/I/81EBWVsSheL._SY355_.jpg">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>Bulletproof
-                                    </li>
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/aEBf"
-                                        artist="Capital Kings"
-                                        title="Don't Wanna Wake Up"
-                                        cover="http://gdurl.com/Ssby">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>Don't Wanna
-                                        Wake Up
-                                    </li>
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/Os8Q"
-                                        artist="Future James"
-                                        title="Life"
-                                        cover="http://gdurl.com/io3Y">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>life
-                                    </li>
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/aEBf"
-                                        artist="Capital Kings"
-                                        title="Don't Wanna Wake Up"
-                                        cover="http://gdurl.com/Ssby">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>Don't Wanna
-                                        Wake Up
-                                    </li>
-                                    <li class="audio-li list-group-item" song="http://gdurl.com/aEBf"
-                                        artist="Capital Kings"
-                                        title="Don't Wanna Wake Up"
-                                        cover="http://gdurl.com/Ssby">
-                                        <i class="material-icons display_icon_list">play_circle_outline</i>Don't Wanna
-                                        Wake Up
+                                    <li v-for="(audio , key) in sound" :key="key" class="audio-li list-group-item"
+                                        :song="audio.sound"
+                                        :artist="audio[currentLang].author"
+                                        :title="audio[currentLang].title"
+                                        :cover="audio.image">
+<!--                                        <i class="material-icons display_icon_list">play_circle_outline</i>-->
+                                        <span>{{audio[currentLang].title}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -114,12 +82,24 @@
 </template>
 
 <script>
+    import apiServiesRoutes from '@/bootstrap/apiServiesRoutes'
     import '@/assets/css/audio.css';
 
     export default {
         name: "AudioPlaylist",
-        mounted() {
-            this.audioFunctionality()
+        data() {
+            return {
+                isLoading: false,
+                currentLang: this.$ml.current,
+                page: 1,
+                page_count: 1,
+                page_range: 1,
+                sound: []
+            }
+        },
+        async created() {
+            let vm = this;
+            await vm.getAudios();
         },
         methods: {
             audioFunctionality() {
@@ -140,7 +120,7 @@
 
                     function initAudio(element) {
                         var file = element.attr('song');
-                        var title = element.text();
+                        var title = element.find('span').text();
                         var cover = element.attr('cover');
                         var artist = element.attr('artist');
 
@@ -301,7 +281,31 @@
 
 
                 });
-            }
+            },
+            getAudios(page_number = 1) {
+                let vm = this;
+                vm.isLoading = true
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUDIO_ALL, {
+                    params: {
+                        page: page_number,
+                        limit: 10
+                    }
+                }).then(response => {
+                    let sound = [];
+                    if (response.data.status) {
+                        sound = response.data.data.sound;
+
+                        vm.sound = sound.data;
+                        vm.page_range = sound.perPage;
+                        vm.page_count = sound.lastPage;
+                        vm.isLoading = false
+                    }
+
+                    vm.audioFunctionality()
+
+                    return sound;
+                })
+            },
         }
     }
 </script>
@@ -334,8 +338,8 @@
     .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
         z-index: 2;
         color: #fff;
-        background-color: #cc9936;
-        border-color: #d49823;
+        /*background-color: #cc9936;*/
+        /*border-color: #d49823;*/
     }
 
     .display_icon_list {

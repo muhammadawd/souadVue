@@ -3,40 +3,22 @@
     <!-- SLIDER -->
     <div class="container-fluids">
         <!-- row -->
-        <div id="hot-post" class="row hot-post">
-            <div class="swiper-container">
+        <div id="hot-post" class="hot-post" style="padding: 0">
+            <div id="swiper-container-slider" class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" v-for="(slide , key) in slider" :key="key">
                         <!-- post -->
                         <div class="post post-thumb">
-                            <a class="post-img" href=""><img src="@/assets/images/bg_1.jpg" alt="" height="500"
-                                                             width="100%"></a>
+                            <a class="post-img" href="">
+                                <img :src="slide.image" alt="" height="500"
+                                     width="100%"></a>
                             <div class="post-body">
                                 <div class="post-category">
-                                    <a href="">عنوان تجريبي</a>
+                                    <a href="">{{slide[currentLang].title}} </a>
                                 </div>
-                                <h3 class="post-title title-lg"><a href="">هذا النص تجريبي يستبدل لاحقا</a></h3>
+                                <h3 class="post-title title-lg"><a href="">{{slide[currentLang].description}}</a></h3>
                                 <ul class="post-meta">
-                                    <li><a href=""> سعاد الصباحي</a></li>
-                                    <li>منذ 3 ساعات</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /post -->
-                    </div>
-                    <div class="swiper-slide">
-                        <!-- post -->
-                        <div class="post post-thumb">
-                            <a class="post-img" href=""><img src="@/assets/images/bg_4.jpg" alt="" height="500"
-                                                             width="100%"></a>
-                            <div class="post-body">
-                                <div class="post-category">
-                                    <a href="">عنوان تجريبي</a>
-                                </div>
-                                <h3 class="post-title title-lg"><a href="">هذا النص تجريبي يستبدل لاحقا</a></h3>
-                                <ul class="post-meta">
-                                    <li><a href=""> سعاد الصباحي</a></li>
-                                    <li>منذ 3 ساعات</li>
+                                    <li><a href=""> {{slide[currentLang].title}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -53,15 +35,42 @@
 </template>
 
 <script>
+    import apiServiesRoutes from '@/bootstrap/apiServiesRoutes'
+
     export default {
         name: "Slider",
-        mounted() {
-            this.swiperFunctionality()
+        data() {
+            return {
+                isLoading: false,
+                currentLang: this.$ml.current,
+                slider: []
+            }
+        },
+        async created() {
+            let vm = this;
+            vm.getSlider();
         },
         methods: {
+
+            getSlider() {
+                let vm = this;
+                vm.isLoading = true
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.SLIDER_ALL, {
+                    params: {
+                        lang: vm.currentLang,
+                    }
+                }).then(response => {
+                    if (response.data.status) {
+                        vm.slider = response.data.data.slider;
+                        vm.isLoading = false
+                        vm.swiperFunctionality();
+                    }
+                })
+            },
+
             swiperFunctionality() {
                 require('@/assets/js/swiper.min.js')
-                new Swiper('.swiper-container', {
+                new Swiper('#swiper-container-slider', {
                     slidesPerView: 'auto',
                     centeredSlides: true,
                     autoplay: {
