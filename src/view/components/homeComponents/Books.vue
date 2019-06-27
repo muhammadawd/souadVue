@@ -27,13 +27,16 @@
             </div>
         </div>
         <div class="mt-5"></div>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-title bg-transparent">
-                        <h1 class="title title-custom bg-transparent"> {{$ml.get('tweets')}}</h1>
+                        <h1 class="title title-custom bg-transparent"> {{$ml.get('tweet')}}</h1>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6 over_flow_scroll">
                     <!--                    <Timeline id="MostafaApprockw" sourceType="likes" :options="{ theme: 'dark' }"/>-->

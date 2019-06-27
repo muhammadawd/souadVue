@@ -220,7 +220,8 @@
 <style>
 
     .fc-agendaWeek-button,
-    .fc-agendaDay-button {
+    .fc-agendaDay-button ,
+    .fc-button:disabled{
         display: none !important;
     }
 

@@ -1,5 +1,5 @@
 module.exports = {
-    BASE_URL: 'http://192.168.1.102:3333/api',
+    BASE_URL: 'http://3.92.38.153:3336/api',
     NEWS_PAGE: '/news/all-paginated',
     NEWS_ALL: '/news',
     NEWS_SLUG: '/news/slug/find',

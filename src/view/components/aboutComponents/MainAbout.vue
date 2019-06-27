@@ -54,7 +54,7 @@
                     item: 1,
                     loop: true,
                     slideMargin: 0,
-                    thumbItem: 9
+                    thumbItem: 4
                 });
             },
 
@@ -85,7 +85,8 @@
     }
 
     .lSSlideOuter .lSPager.lSGallery img {
-        height: 65px !important;
-        width: 65px !important;
+        height: 125px !important;
+        width: 100% !important;
+        margin: auto;
     }
 </style>

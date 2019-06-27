@@ -1221,6 +1221,16 @@ textarea.input {
     transition: 0.2s opacity;
 }
 
+.social-widget ul li a {
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    .social-widget ul li {
+        width: 50% !important;
+    }
+}
+
 .social-widget ul li a:hover {
     opacity: 0.9;
 }
@@ -1242,7 +1252,7 @@ textarea.input {
 
 .newsletter-widget {
     position: relative;
-    padding: 0px 30px 30px;
+    padding: 0px 5px 30px;
     border-left: 2px dashed #e8eaed;
     border-right: 2px dashed #e8eaed;
 }
@@ -1876,6 +1886,7 @@ textarea.input {
 .form_contact {
     margin-top: 50px;
 }
-.contact-icons li{
+
+.contact-icons li {
     margin-bottom: 10px;
 }

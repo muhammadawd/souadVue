@@ -44,8 +44,8 @@ export default new MLCreate({
             download: 'Download',
             view: 'View',
             type_comment: 'Type Comment',
-            share_facebook: 'Share On Facebook',
-            share_twitter: 'Share On Twitter',
+            share_facebook: 'Share Now',
+            share_twitter: 'Share Now',
             current_competition: 'Current competition',
             previous_competition: 'Previous Competition',
             competition_name: 'Competition Name',
@@ -56,6 +56,7 @@ export default new MLCreate({
             no_data: 'No Data',
             _error: 'Errors Happened',
             _success: 'Success Happened',
+            filter: 'Filter Search',
             tweet: 'Tweets',
         }),
 
@@ -96,8 +97,8 @@ export default new MLCreate({
             download: 'تحميل',
             view: 'عرض',
             type_comment: 'اكتب تعليقك',
-            share_facebook: 'شارك عن طريق فيس بوك',
-            share_twitter: 'شارك عن طريق تويتر',
+            share_facebook: 'شارك الان',
+            share_twitter: 'شارك الان',
             current_competition: 'المسابقة الحالية',
             previous_competition: 'المسابقات السابقة',
             competition_name: 'اسم المسابقة',
@@ -108,6 +109,7 @@ export default new MLCreate({
             no_data: 'ﻻ توجد بيانات  ',
             _error: 'حدث خطأ',
             _success: 'تمت العملية بنجاح',
+            filter: 'تصفية البحث',
             tweet: 'منشورات تويتر'
         })
     ]

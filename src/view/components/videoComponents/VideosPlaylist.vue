@@ -6,6 +6,19 @@
                     <h1 class="title title-custom bg-transparent">{{$ml.get('videos')}}</h1>
                 </div>
             </div>
+            <div class="col-md-4">
+                <input name="first_name" required="required" autocomplete="off" v-model="query"
+                       :placeholder="$ml.get('filter')" class="input mt-2">
+            </div>
+            <!--            <div class="col-md-4">-->
+            <!--                <input name="first_name" required="required" autocomplete="off" class="input mt-2">-->
+            <!--            </div>-->
+            <div class="col-md-12 text-center mt-2">
+                <button class="primary-button" @click="getVideos">
+                    {{$ml.get('filter')}}
+                </button>
+            </div>
+            <div class="col-md-12 mt-2"></div>
             <div class="col-md-6" v-for="(video , key) in videos" :key="key" v-html="video.link"></div>
             <div class="col-md-12 text-center" v-if="page_count > 0">
                 <paginate
@@ -47,6 +60,7 @@
                 page: 1,
                 page_count: 1,
                 page_range: 1,
+                query: null,
                 videos: []
             }
         },
@@ -65,7 +79,8 @@
                     params: {
                         page: page_number,
                         lng: vm.currentLang,
-                        limit: 2
+                        limit: 2,
+                        query: vm.query
                     }
                 }).then(response => {
                     let videos = [];

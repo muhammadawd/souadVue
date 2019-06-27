@@ -225,7 +225,7 @@
     }
 
     .text-ellipsis::after {
-        content: '...';
+        content: '';
         position: absolute;
         bottom: -5px;
         font-size: 20px;

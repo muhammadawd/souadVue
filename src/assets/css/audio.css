@@ -1,6 +1,6 @@
 #container {
     height: 500px;
-    width: 350px;
+    width: 330px;
     transition: all 1s;
     margin: 15px auto;
     border-radius: 10px;
@@ -39,7 +39,7 @@
     position: absolute;
     top: 0px;
     background-image: inherit;
-    margin: 25px;
+    margin: 15px;
     transform: scale(.8);
     border-radius: inherit;
     transition: all .5s;
