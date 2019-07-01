@@ -63,7 +63,9 @@
                     if (response.data.status) {
                         vm.slider = response.data.data.slider;
                         vm.isLoading = false
-                        vm.swiperFunctionality();
+                        setTimeout(()=>{
+                            vm.swiperFunctionality();
+                        },100)
                     }
                 })
             },

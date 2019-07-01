@@ -36,9 +36,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <p>
-                            {{currentBook[currentLang].description}}
-                        </p>
+                        <p v-html="currentBook[currentLang].description"> </p>
                     </div>
                     <div class="text-center">
                         <a :href="currentBook.file" target="_blank" class="primary-button danger-button mt-5">

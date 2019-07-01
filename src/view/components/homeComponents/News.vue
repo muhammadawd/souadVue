@@ -29,9 +29,7 @@
                                 {{currentNews[currentLang].title}}
                             </router-link>
                         </h3>
-                        <p class="small text-ellipsis">
-                            {{currentNews[currentLang].description}}
-                        </p>
+                        <p class="small text-ellipsis" v-html="currentNews[currentLang].description"></p>
                         <ul class="post-meta">
                             <li>
                                 <router-link
@@ -72,9 +70,7 @@
                                                     {{_news[currentLang].title}}
                                                 </router-link>
                                             </h3>
-                                            <p class="small text-ellipsis">
-                                                {{_news[currentLang].description}}
-                                            </p>
+                                            <p class="small text-ellipsis" v-html="_news[currentLang].description"></p>
                                             <div class="post-category pull-left">
                                                 <router-link
                                                         :to="{ name: 'show_news',params:{slug:_news.slug}}"

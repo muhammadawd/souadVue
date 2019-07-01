@@ -1,19 +1,22 @@
 <template>
     <div>
-        <router-view/>
+        <fade-transition origin="center" mode="out-in" :duration="150">
+            <router-view/>
+        </fade-transition>
     </div>
 </template>
 
 <script>
+    import {FadeTransition} from "vue2-transitions";
+
     export default {
-        name: "App"
+        name: "App",
+        components: {
+            FadeTransition
+        }
     }
 </script>
 
 <style scoped>
 
-    /*<!--        <router-link :to="{ name: 'profile', params: { id: 120}, query: {lang:'ar'}}"-->*/
-    /*<!--                     tag="a" class="xxxxxxx" active-class="active"-->*/
-    /*<!--                     exact-active-class="exact-active">GET PROFILE-->*/
-    /*<!--        </router-link>-->*/
 </style>
