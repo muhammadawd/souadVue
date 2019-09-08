@@ -79,6 +79,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.BOOKS_ALL, {
                     params: {
                         page: page_number,
+                        category: vm.$route.params.category,
                         limit: 3
                     }
                 }).then(response => {

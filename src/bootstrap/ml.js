@@ -59,6 +59,7 @@ export default new MLCreate({
             filter: 'Filter Search',
             tweet: 'Tweets',
             login: 'Login',
+            for_issues: 'Issues',
         }),
 
         new MLanguage('ar').create({
@@ -126,6 +127,7 @@ export default new MLCreate({
             yes: 'نعم',
             no: 'ﻻ',
             are_you_sure: 'هل انت متأكد',
+            are_you_sure_update: 'هل انت متأكد من انهاء المسابقة',
             title_ar: 'العنوان بالعربية',
             title_en: 'العنوان بالانجليزية',
             description_ar: 'الوصف بالعربية',
@@ -150,6 +152,15 @@ export default new MLCreate({
             file: 'الملف',
             description: 'الوصف',
             slider: 'السلايد شو',
+            location: 'الموقع',
+            status: 'الحالة',
+            name: 'الاسم',
+            winner: 'الرابح',
+            applications: 'المتسابقين',
+            for_issues: 'للاستفسار',
+            menu: 'القائمة',
+            order: 'الترتيب',
+            category: 'التصنيف',
         })
     ]
 })

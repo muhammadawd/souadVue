@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <!--                        <div class="col-md-3">-->
@@ -49,16 +49,38 @@
                         <!--                            <input type="text" class="input" v-model="author" name="author" required-->
                         <!--                                   autocomplete="off">-->
                         <!--                        </div>-->
+                        <div class="col-md-3 ">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
+                        </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('images')}}</label>
                             <input type="file" class="input" name="image" ref="image"
                                    autocomplete="off">
+                            <br>
+                            <a class="text-primary" :href="image" target="_blank">
+                                <b>
+                                    <i class="fas fa-image"></i>
+                                    عرض الصورة الحالية
+                                </b>
+                            </a>
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('file')}}</label>
                             <input type="file" class="input" name="file" ref="file"
                                    autocomplete="off">
+                            <br>
+                            <a class="text-primary" :href="file" target="_blank">
+                                <b>
+                                    <i class="fas fa-file"></i>
+                                    عرض الملف الحالي
+                                </b>
+                            </a>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -124,6 +146,8 @@
                 description_en: null,
                 image: null,
                 file: null,
+                category: null,
+                suggest_categories: [],
                 // author: null,
                 customToolbar: [
                     ["bold", "italic", "underline"],
@@ -132,13 +156,25 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
-            getbooks() {
+            getSuggest() {
                 let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_BOOK,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            }, getbooks() {
+                let vm = this;
+                vm.$Progress.start();
                 let id = vm.$route.params.book_id;
 
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.BOOKS + '/' + id, {})
                     .then(response => {
+                        vm.$Progress.finish();
                         let status = response.data.status;
                         let data = response.data.data;
                         if (status) {
@@ -156,6 +192,7 @@
                             vm.description_en = data.book.en.description;
                             vm.file = data.book.file;
                             vm.image = data.book.image;
+                            vm.category = data.book.category;
                             // vm.author = data.book.author;
                             return;
                         }
@@ -181,6 +218,7 @@
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
                 formData.append('author', vm.author);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.BOOK_UPDATE + '/' + id, formData, {

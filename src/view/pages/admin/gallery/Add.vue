@@ -36,8 +36,16 @@
                     <div class="row"> 
                         <div class="col-md-offset-3 col-md-3">
                             <label>{{$ml.get('images')}}</label>
-                            <input type="file" class="input" name="images" ref="images" required
+                            <input type="file" class="input" name="images" ref="images" required multiple
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12 text-center mt-5">
                             <button class="primary-button mt-2">{{$ml.get('submit')}}</button>
@@ -85,16 +93,34 @@
         data() {
             return {
                 images: [],
+                suggest_categories: [],
+                category: null,
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_GALLERY,)
+                    .then(response => {
+                        console.log(response.data)
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postgallery(e) {
                 let vm = this;
+                vm.$Progress.start();
                 e.preventDefault();
                 let formData = new FormData();
-                let file = vm.$refs.images.files[0];
-                vm.images = file;
-                formData.append('images[0]', vm.images);
+
+                let files = vm.$refs.images.files;
+                for (let i = 0; i < files.length; i++) {
+                    formData.append(`images[${i}]`, files[i]);
+                }
+                formData.append(`category`, vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.GALLERY_CREATE, formData, {
@@ -103,6 +129,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;

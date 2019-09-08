@@ -51,7 +51,7 @@
         name: "LoginForm",
         data() {
             return {
-                username: 'testafgf',
+                username: '',
                 password: '',
             }
         },
@@ -72,10 +72,6 @@
                     .then(response => {
                         let status = response.data.status;
                         let data = response.data.data;
-                        // this.$router.push({name: '/home'});
-                        // console.log(this.$jwt.hasToken());
-                        // console.log(this.$jwt.getToken());
-                        // console.log(this.$jwt.decode());
                         if (status) {
 
                             Vue.$toast.open({
@@ -83,11 +79,17 @@
                                 type: 'info'
                             });
 
+                            let token = data.token;
                             localStorage.setItem('auth_token', data.token);
+                            if (token) {
+                                axios.defaults.headers.common['Accept'] = 'application/json';
+                                axios.defaults.headers.common['Content-Type'] = 'application/json';
+                                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                            }
                             vm.username = null;
                             vm.password = null;
-                            vm.$router.push({name: 'dashboard'})
-                            return;
+                            vm.$router.push({name: 'dashboard'});
+                            return true;
                         } else {
                             data.validation_errors.forEach(function (item, index) {
                                 Vue.$toast.open({

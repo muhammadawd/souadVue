@@ -51,7 +51,7 @@
                         <div class="post post-row">
                             <router-link class="post-img" :to="{ name: 'show_news',params:{slug:_new.slug,id:_new._id}}"
                                          tag="a">
-                                <img v-for="(image,key) in _new.images" :key="key" :src="image.fileName" alt="">
+                                <img v-for="(image,key) in _new.images" :key="key" v-if="key == 0" :src="image.fileName" alt="">
                             </router-link>
                             <div class="post-body">
                                 <div class="post-category">
@@ -158,7 +158,8 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_PAGE, {
                         params: {
                             page: page_number,
-                            lang: 'ar',
+                            lang: vm.currentLang,
+                            category: vm.$route.params.category,
                             limit: 4
                         }
                     }).then(response => {

@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -52,24 +52,35 @@
                         <div class="col-md-3">
                             <label>{{$ml.get('publisher_name_en')}}</label>
                             <input type="text" class="input" v-model="author_en" name="author_en"
-                                   required
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('images')}}</label>
                             <input type="file" class="input" name="images" ref="images"
                                    autocomplete="off">
-                            <a :href="images" target="_blank" class="text-primary" >
+                            <a :href="images" target="_blank" class="text-primary">
                                 <br>
                                 <i class="fas fa-image"></i>
                                 <b> عرض الصورة الحالية</b>
-                                <!--                                    <img :src="image.fileName" width="50%" class="mt-2" alt="">-->
                             </a>
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('sound')}}</label>
                             <input type="file" class="input" name="sounds" ref="sounds"
                                    autocomplete="off">
+                            <a :href="sound" target="_blank" class="text-primary">
+                                <br>
+                                <i class="fas fa-file"></i>
+                                <b> عرض الملف الحالي</b>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-12 text-center">
@@ -127,6 +138,8 @@
                 author_en: null,
                 images: null,
                 sound: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -134,7 +147,19 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_SOUND,)
+                    .then(response => {
+                        console.log(response.data)
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             getaudios() {
                 let vm = this;
                 let id = vm.$route.params.audio_id;
@@ -151,6 +176,7 @@
                             vm.author_en = data.sound.en.author;
                             vm.images = data.sound.image;
                             vm.sound = data.sound.sound;
+                            vm.category = data.sound.category;
                             return;
                         }
                         // vm.$router.push({name: 'all_audios'})
@@ -162,11 +188,12 @@
             // audios_UPDATE
             postaudios(e) {
                 let vm = this;
+                vm.$Progress.start();
                 let id = vm.$route.params.audio_id;
                 e.preventDefault();
                 let formData = new FormData();
-                vm.images  = vm.$refs.images.files[0];
-                vm.sound  = vm.$refs.sounds.files[0];
+                vm.images = vm.$refs.images.files[0];
+                vm.sound = vm.$refs.sounds.files[0];
 
                 formData.append('image', vm.images);
                 formData.append('sound', vm.sound);
@@ -175,6 +202,7 @@
                 formData.append('author_ar', vm.author_ar);
                 formData.append('author_en', vm.author_en);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUDIO_UPDATE + '/' + id, formData, {
@@ -183,6 +211,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -210,6 +239,7 @@
                             vm.publisher_name_en = null;
                             vm.date = new Date();
                             vm.slug = null;
+                            vm.category = null;
                             vm.images = [];
                             vm.$router.push({name: 'all_audios'});
                         } else {

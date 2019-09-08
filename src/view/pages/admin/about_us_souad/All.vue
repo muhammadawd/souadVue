@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="mt-5 text-center">
                         <h1>{{$ml.get('control_panel')}} </h1>
-                        <h3 class="card-title">( {{$ml.get('about_us')}} )</h3>
+                        <h3 class="card-title">( {{$ml.get('site_name')}} )</h3>
                     </div>
                 </div>
 

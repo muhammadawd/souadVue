@@ -32,6 +32,20 @@
                 </div>
 
                 <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input name="query" autocomplete="off" v-model="query" @keyup.enter="getactivity(1)"
+                                   :placeholder="$ml.get('filter')"
+                                   class="input mt-2">
+                        </div>
+                        <div class="col-md-12 text-center mt-2" style="margin-bottom: 15px">
+                            <button class="primary-button" @click="getactivity(1)">
+                                {{$ml.get('filter')}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
                     <table class="table table-bordered table-hover table-responsive">
                         <thead>
                         <tr>
@@ -139,6 +153,7 @@
                 page: 1,
                 page_count: 1,
                 page_range: 1,
+                query: null,
                 activity: [],
                 current_activity: null
             }
@@ -158,7 +173,8 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.ACTIVITY_ALL, {
                     params: {
                         page: page_number,
-                        limit: 10
+                        limit: 10,
+                        query: vm.query
                     }
                 }).then(response => {
                     console.log(response.data)

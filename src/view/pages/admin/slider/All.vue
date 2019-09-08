@@ -32,6 +32,20 @@
                 </div>
 
                 <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input name="query" r autocomplete="off" v-model="query" :placeholder="$ml.get('filter')" @keyup.enter="getslider(1)"
+                                   class="input mt-2">
+                        </div>
+                        <div class="col-md-12 text-center mt-2" style="margin-bottom: 15px">
+                            <button class="primary-button" @click="getslider(1)">
+                                {{$ml.get('filter')}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
                     <table class="table table-bordered table-hover table-responsive">
                         <thead>
                         <tr>
@@ -118,6 +132,7 @@
                 page: 1,
                 page_count: 1,
                 page_range: 1,
+                query: null,
                 slider: [],
                 current_slider: null
             }
@@ -137,7 +152,8 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.SLIDER_ALL, {
                     params: {
                         page: page_number,
-                        limit: 10
+                        limit: 10,
+                        query: vm.query
                     }
                 }).then(response => {
                     console.log(response.data)

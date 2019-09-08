@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -63,8 +63,16 @@
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('publisher_name_en')}}</label>
                             <input type="text" class="input" v-model="author_en" name="author_en"
-                                   required
+
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-12 text-center">
@@ -118,6 +126,8 @@
                 author_en: null,
                 images: null,
                 sound: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -125,9 +135,22 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_SOUND,)
+                    .then(response => {
+                        console.log(response.data)
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postaudios(e) {
                 let vm = this;
+                vm.$Progress.start();
                 e.preventDefault();
                 let formData = new FormData();
                 vm.images  = vm.$refs.images.files[0];
@@ -140,6 +163,7 @@
                 formData.append('author_ar', vm.author_ar);
                 formData.append('author_en', vm.author_en);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUDIO_CREATE, formData, {
@@ -148,6 +172,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -172,6 +197,7 @@
                             vm.publisher_name_en = null;
                             vm.date = new Date();
                             vm.slug = null;
+                            vm.category = null;
                             vm.images = [];
                             vm.$router.push({name: 'all_audios'});
                         } else {

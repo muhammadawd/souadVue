@@ -288,6 +288,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUDIO_ALL, {
                     params: {
                         page: page_number,
+                        category: vm.$route.params.category,
                         limit: 10
                     }
                 }).then(response => {

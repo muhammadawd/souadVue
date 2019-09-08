@@ -91,6 +91,7 @@
                     params: {
                         page: page_number,
                         lng: vm.currentLang,
+                        category: vm.$route.params.category,
                         limit: 1
                     }
                 }).then(response => {

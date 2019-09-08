@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-md-6 mt-5">
                             <label>{{$ml.get('description_en')}}</label>
-                            <textarea type="text" class="input" v-model="description_en" name="description_en" required
+                            <textarea type="text" class="input" v-model="description_en" name="description_en"
                                       autocomplete="off"></textarea>
                         </div>
                         <div class="col-md-12 text-center">
@@ -130,10 +130,12 @@
         methods: {
             getslider() {
                 let vm = this;
+                vm.$Progress.start();
                 let id = vm.$route.params.slider_id;
 
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.SLIDER_FIND + '/' + id, {})
                     .then(response => {
+                        vm.$Progress.finish();
                         let status = response.data.status;
                         let data = response.data.data;
 

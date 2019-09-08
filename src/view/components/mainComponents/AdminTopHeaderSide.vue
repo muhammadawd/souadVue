@@ -9,9 +9,21 @@
                 </router-link>
             </li>
             <li>
+                <router-link :to="{ name: 'menu_order'}"
+                             tag="a" active-class="actives"
+                             exact-active-class="active">{{$ml.get('menu')}}
+                </router-link>
+            </li>
+            <li>
                 <router-link :to="{ name: 'all_slider'}"
                              tag="a" active-class="actives"
                              exact-active-class="active">{{$ml.get('slider')}}
+                </router-link>
+            </li>
+            <li>
+                <router-link :to="{ name: 'all_competitions'}"
+                             tag="a" active-class="actives"
+                             exact-active-class="active">{{$ml.get('competitions')}}
                 </router-link>
             </li>
             <li>

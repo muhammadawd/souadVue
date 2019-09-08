@@ -25,10 +25,36 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-2" style="padding-right: 25px">
+            <div class="col-md-4" style="padding-right: 25px">
                 <h3>{{currentCompetition[currentLang].title}}</h3>
-                <p v-html="currentCompetition[currentLang].description">
-                </p>
+            </div>
+            <div class="col-md-8">
+
+
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item" v-for="(image,key) in currentCompetition.images" :key="key"
+                             :class="key == 0 ? 'active': ''">
+                            <img :src="image.fileName" alt="" style="height: 500px;width: 100%">
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!--                <img :src="currentCompetition.image" alt="">-->
+            </div>
+            <div class="col-md-12 mt-2" style="padding-right: 25px">
+                <p v-html="currentCompetition[currentLang].description"></p>
             </div>
             <div class="col-md-12" v-if="currentCompetition.status == 'available'">
                 <div class="form_contact ">
@@ -100,6 +126,7 @@
         async created() {
             let vm = this;
             let _id = vm.$route.params.id;
+            require('@/assets/js/bootstrap.min.js')
             await vm.getCompetition(_id)
         },
         methods: {
@@ -159,6 +186,9 @@
                         vm.currentCompetition = response.data.data.competition;
 
                         vm.isLoading = false
+                        setTimeout(() => {
+                            $('.carousel').carousel()
+                        },100);
                     }
                     return competition;
                 })

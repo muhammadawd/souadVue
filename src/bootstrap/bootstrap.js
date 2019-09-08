@@ -1,5 +1,8 @@
 window._ = require('lodash');
 
+
+// window.pace = require('pace-progress');
+
 try {
     window.$ = window.jQuery = require('jquery')
 
@@ -13,7 +16,9 @@ try {
     // window.axios.defaults.headers.common['Content-Type'] = 'application/json';
     let token = localStorage.getItem('auth_token');
     if (token) {
-        window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        window.axios.defaults.headers.common['Accept'] = 'application/json';
+        window.axios.defaults.headers.common['Content-Type'] = 'application/json';
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 
 } catch (e) {

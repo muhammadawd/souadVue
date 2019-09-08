@@ -1,6 +1,8 @@
 module.exports = {
+    BASE_URL: 'http://approc.com:3333/api',
+    // BASE_URL: 'http://172.81.117.216:3333/api',
     // BASE_URL: 'http://3.92.38.153:3336/api',
-    BASE_URL: 'http://192.168.1.107:3333/api',
+    // BASE_URL: 'http://192.168.1.100:3333/api',
 
     NEWS_PAGE: '/news/all-paginated',
     NEWS_ALL: '/news',
@@ -53,6 +55,13 @@ module.exports = {
     ACTIVITY_DELETE: '/activity/delete',
 
     COMPETITIONS: '/competition',
+    COMPETITION_CREATE: '/competition/store',
+    COMPETITION_UPDATE: '/competition/update',
+    COMPETITION_DELETE: '/competition/delete',
+    COMPETITION_FINISH: '/competition/competition-finish',
+    COMPETITION_WINNER: '/competition/winner-competition',
+    COMPETITION_REMOVE_WINNER: '/competition/remove-winner-competition',
+    COMPETITIONS_ALL: '/competition/all-paginated',
     COMPETITION_APPLICATION: '/competition/apply-competition',
     COMPETITIONS_FINISHED_ALL: '/competition/finished/all-paginated',
     COMPETITIONS_AVAILABLE_ALL: '/competition/available/all-paginated',
@@ -72,6 +81,23 @@ module.exports = {
 
     SUBSCRIBE_ALL: '/subscribe/all-paginated',
     SUBSCRIBE: '/subscribe/store',
+
     GET_DATES: '/utility/get-dates',
-    LOGIN: '/user/login'
+    NAV_BAR_UPDATE: '/utility/update-category',
+    NAV_BAR_DELETE: '/utility/delete-category', // key , category
+
+    LOGIN: '/user/login',
+
+    NAV_BAR_ORDER: '/navbar/update',
+    NAV_BAR: '/navbar',
+
+    AUTO_COMPLETE_NEWS:'/news/category',
+    AUTO_COMPLETE_BOOK:'/book/category',
+    AUTO_COMPLETE_VIDEO:'/video/category',
+    AUTO_COMPLETE_SOUND:'/sound/category',
+    AUTO_COMPLETE_POEM:'/poem/category',
+    AUTO_COMPLETE_ACTIVITY:'/activity/category',
+    AUTO_COMPLETE_ARTICLE:'/article/category',
+    AUTO_COMPLETE_GALLERY:'/gallery/category',
+    AUTO_COMPLETE_COMPETITION:'/competition/category',
 };

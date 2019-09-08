@@ -2,84 +2,39 @@
     <!-- Aside Nav -->
     <div id="nav-aside">
         <ul class="nav-aside-menu">
-            <li>
-                <router-link :to="{ name: 'home'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('home_page')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'about_person'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('site_name')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'activities'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('activities')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'written_peoms'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('poems_written')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'news'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('news')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'articles'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('articles')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'competitions'}"
-                             tag="a" active-class="actives"
-                             exact-active-class="active">{{$ml.get('competitions')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'books'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('dar_versions')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'gallery'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('gallery')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'videos'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('videos')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'audios'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('audios')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'about_us'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('about_us')}}
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'contact_us'}"
-                             tag="a" active-class="active"
-                             exact-active-class="active">{{$ml.get('contact_us')}}
-                </router-link>
-            </li>
+            <slot v-for="(nav_item , key) in NBar">
+                <li v-if="nav_item.categories.length == 0">
+                    <router-link :to="{ name: nav_item.name}"
+                                 tag="a" active-class="actives"
+                                 exact-active-class="active">{{nav_item[currentLang].title}}
+                    </router-link>
+                </li>
+
+                <li class="has-dropdown" v-if="nav_item.categories.length > 0">
+                    <div class="tabs">
+                        <div class="tab">
+                            <input type="radio" :id="'rd'+key" name="rd">
+                            <label class="tab-label" :for="'rd'+key">{{nav_item[currentLang].title}}</label>
+                            <div class="tab-content">
+                                <ul class="dropdown-list">
+                                    <li v-for="(category , _key) in nav_item.categories" :key="_key">
+                                        <router-link :to="{ name: nav_item.name,params: {category:category}}"
+                                                     tag="a" active-class="actives" class="submenu"
+                                                     exact-active-class="active">{{category}}
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--                        <div class="tab">-->
+                        <!--                            <input type="radio" id="rd3" name="rd">-->
+                        <!--                            <label for="rd3" class="tab-close">Close others &times;</label>-->
+                        <!--                        </div>-->
+                    </div>
+                </li>
+            </slot>
+
+
         </ul>
         <button class="nav-close nav-aside-close"><span></span></button>
     </div>
@@ -87,12 +42,36 @@
 </template>
 
 <script>
+
+    import apiServiesRoutes from '@/bootstrap/apiServiesRoutes'
+
     export default {
         name: "TopHeaderSide",
+        data() {
+            return {
+                currentLang: this.$ml.current,
+                NBar: []
+            }
+        },
         mounted() {
+            this.getMenuItems();
             this.sideBarFunctionality()
         },
         methods: {
+            getMenuItems() {
+                let vm = this;
+
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NAV_BAR, {
+                    params: {
+                        lang: vm.currentLang
+                    }
+                }).then(response => {
+                    if (response.data.status) {
+                        vm.NBar = response.data.data.navbar;
+
+                    }
+                });
+            },
             sideBarFunctionality() {
                 // Aside Nav
                 // $(document).click(function (event) {
@@ -123,5 +102,81 @@
 </script>
 
 <style scoped>
+    .submenu {
+        color: #fff !important;
+        border-bottom: none;
+    }
+
+    /* Accordion styles */
+    .tabs {
+        overflow: hidden;
+    }
+
+    .tab {
+        width: 100%;
+        color: white;
+        overflow: hidden;
+    }
+
+    .tab-label {
+        display: flex;
+        justify-content: space-between;
+        padding: 1em;
+        background: #00274e;
+        font-weight: bold;
+        cursor: pointer;
+        /* Icon */
+    }
+
+    .tab-label:hover {
+        background: #032241;
+    }
+
+    .tab-label::after {
+        content: "\276F";
+        width: 1em;
+        height: 1em;
+        text-align: center;
+        transition: all .35s;
+    }
+
+    .tab-content {
+        max-height: 0;
+        padding: 0 1em;
+        color: #00274e;
+        background: #032c55;
+        transition: all .35s;
+    }
+
+    .tab-close {
+        display: flex;
+        justify-content: flex-end;
+        padding: 1em;
+        font-size: 0.75em;
+        background: #2c3e50;
+        cursor: pointer;
+    }
+
+    .tab-close:hover {
+        background: #032241;
+    }
+
+    input[type=checkbox], input[type=radio] {
+        display: none;
+    }
+
+    input:checked + .tab-label {
+        background: #032241;
+    }
+
+    input:checked + .tab-label::after {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    input:checked ~ .tab-content {
+        max-height: 100vh;
+        padding: 1em;
+    }
 
 </style>

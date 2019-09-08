@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -56,6 +56,14 @@
                                 <i class="fas fa-image"></i>
                                 <b> عرض الصورة الحالية</b>
                             </a>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -123,6 +131,7 @@
                 description_ar: null,
                 description_en: null,
                 images: null,
+                category: null,
                 date: new Date(),
                 customToolbar: [
                     ["bold", "italic", "underline"],
@@ -131,13 +140,26 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_ACTIVITY,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             getactivity() {
                 let vm = this;
+                vm.$Progress.start()
                 let id = vm.$route.params.activity_id;
 
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.ACTIVITY_FIND + '/' + id, {})
                     .then(response => {
+                        vm.$Progress.finish()
                         let status = response.data.status;
                         let data = response.data.data;
                         console.log(data)
@@ -148,6 +170,7 @@
                             vm.title_en = data.activity.en.title;
                             vm.description_en = data.activity.en.description;
                             vm.date = data.activity.date;
+                            vm.category = data.activity.category;
                             vm.images = data.activity.image;
                             return;
                         }
@@ -170,6 +193,7 @@
                 formData.append('title_en', vm.title_en);
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
+                formData.append('category', vm.category);
                 formData.append('date', vm.date);
 
 

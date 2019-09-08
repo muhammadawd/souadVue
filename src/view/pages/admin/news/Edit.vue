@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -50,14 +50,14 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('images')}}</label>
-                            <input type="file" class="input" name="images" ref="images"
+                            <input type="file" class="input" name="images" ref="images" multiple
                                    autocomplete="off">
-                                <a v-for="(image ,key) in images" :href="image.fileName" target="_blank" class="text-primary" :key="key" >
-                                    <br>
-                                    <i class="fas fa-image"></i>
-                                    <b> عرض الصورة الحالية</b>
-<!--                                    <img :src="image.fileName" width="50%" class="mt-2" alt="">-->
-                                </a>
+                            <a v-for="(image ,key) in images" :href="image.fileName" target="_blank"
+                               class="text-primary" :key="key">
+                                <br>
+                                <i class="fas fa-image"></i>
+                                <b> عرض الصورة الحالية</b>
+                            </a>
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('date')}}</label>
@@ -66,14 +66,20 @@
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('publisher_name_ar')}}</label>
                             <input type="text" class="input" v-model="publisher_name_ar" name="publisher_name_ar"
-                                   required
-                                   autocomplete="off">
+                                   required autocomplete="off">
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('publisher_name_en')}}</label>
                             <input type="text" class="input" v-model="publisher_name_en" name="publisher_name_en"
-                                   required
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -147,6 +153,8 @@
                 tags: [],
                 date: new Date(),
                 slug: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -154,15 +162,28 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_NEWS,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             getNews() {
                 let vm = this;
+                vm.$Progress.start()
                 let id = vm.$route.params.news_id;
 
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_ALL + '/' + id, {})
                     .then(response => {
                         let status = response.data.status;
                         let data = response.data.data;
+                        vm.$Progress.finish()
                         if (status) {
                             vm.title_ar = data.news.ar.title;
                             vm.publisher_name_ar = data.news.ar.publisher_name;
@@ -174,6 +195,7 @@
                             vm.slug = data.news.slug;
                             vm.date = data.news.date;
                             vm.images = data.news.images;
+                            vm.category = data.news.category;
                             return;
                         }
                         vm.$router.push({name: 'all_news'})
@@ -188,10 +210,10 @@
                 let id = vm.$route.params.news_id;
                 e.preventDefault();
                 let formData = new FormData();
-                let file = vm.$refs.images.files[0];
-                vm.images = file;
-
-                formData.append('images[0]', vm.images);
+                let files = vm.$refs.images.files;
+                for (let i = 0; i < files.length; i++) {
+                    formData.append(`images[${i}]`, files[i]);
+                }
                 formData.append('title_ar', vm.title_ar);
                 formData.append('title_en', vm.title_en);
                 formData.append('description_ar', vm.description_ar);
@@ -200,6 +222,7 @@
                 formData.append('publisher_name_ar', vm.publisher_name_ar);
                 formData.append('publisher_name_en', vm.publisher_name_en);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_UPDATE + '/' + id, formData, {
@@ -235,6 +258,7 @@
                             vm.publisher_name_en = null;
                             vm.date = new Date();
                             vm.slug = null;
+                            vm.category = null;
                             vm.images = [];
                             vm.$router.push({name: 'all_news'});
                         } else {

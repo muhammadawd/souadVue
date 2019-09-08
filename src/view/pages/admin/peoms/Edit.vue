@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -58,6 +58,14 @@
                                 <b> عرض الصورة الحالية</b>
                                 <!--                                    <img :src="image.fileName" width="50%" class="mt-2" alt="">-->
                             </a>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -123,6 +131,8 @@
                 description_en: null,
                 images: null,
                 author: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -130,7 +140,18 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_POEM,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             getpoems() {
                 let vm = this;
                 let id = vm.$route.params.poem_id;
@@ -147,6 +168,7 @@
                             vm.description_en = data.poem.en.description;
                             vm.author = data.poem.author;
                             vm.images = data.poem.image;
+                            vm.category = data.poem.category;
                             return;
                         }
                         vm.$router.push({name: 'all_poems'})
@@ -158,6 +180,7 @@
             // poems_UPDATE
             postpoems(e) {
                 let vm = this;
+                vm.$Progress.start();
                 let id = vm.$route.params.poem_id;
                 e.preventDefault();
                 let formData = new FormData();
@@ -169,6 +192,7 @@
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
                 formData.append('author', vm.author);
+                formData.append('category', vm.category);
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.POEM_UPDATE + '/' + id, formData, {
                         headers: {
@@ -176,6 +200,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;

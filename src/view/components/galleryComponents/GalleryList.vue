@@ -88,6 +88,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.GALLERY_ALL, {
                     params: {
                         page: page_number,
+                        category: vm.$route.params.category,
                         limit: 12
                     }
                 }).then(response => {

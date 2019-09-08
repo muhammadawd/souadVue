@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -67,8 +67,16 @@
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('publisher_name_en')}}</label>
                             <input type="text" class="input" v-model="publisher_name_en" name="publisher_name_en"
-                                   required
+
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -133,8 +141,10 @@
                 images: null,
                 links: [],
                 tags: [],
+                suggest_categories: [],
                 date: new Date(),
                 slug: null,
+                category: null,
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -142,9 +152,21 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_ARTICLE,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postarticles(e) {
                 let vm = this;
+                vm.$Progress.start()
                 e.preventDefault();
                 let formData = new FormData();
                 let file = vm.$refs.images.files[0];
@@ -158,6 +180,7 @@
                 formData.append('publisher_name_ar', vm.publisher_name_ar);
                 formData.append('publisher_name_en', vm.publisher_name_en);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.ARTICLE_CREATE, formData, {
@@ -166,6 +189,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish()
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -190,6 +214,7 @@
                             vm.publisher_name_en = null;
                             vm.date = new Date();
                             vm.slug = null;
+                            vm.category = null;
                             vm.images = [];
                             vm.$router.push({name: 'all_articles'});
                         } else {

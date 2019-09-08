@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -52,6 +52,14 @@
                             <label>{{$ml.get('images')}}</label>
                             <input type="file" class="input" name="images" ref="images" required
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -114,6 +122,8 @@
                 images: null,
                 date: new Date(),
                 author: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -121,9 +131,21 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_ACTIVITY,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postactivity(e) {
                 let vm = this;
+                vm.$Progress.start()
                 e.preventDefault();
                 let formData = new FormData();
                 vm.images = vm.$refs.images.files[0];
@@ -134,6 +156,7 @@
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.ACTIVITY_CREATE, formData, {
@@ -142,6 +165,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish()
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -162,6 +186,7 @@
                             vm.title_en = null;
                             vm.description_ar = null;
                             vm.description_en = null;
+                            vm.category = null;
                             vm.date = new Date();
                             vm.images = [];
                             vm.$router.push({name: 'all_activity'});

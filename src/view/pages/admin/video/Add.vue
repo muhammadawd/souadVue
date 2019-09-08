@@ -41,12 +41,20 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('date')}}</label>
                             <flat-pickr class="input" v-model="date" required></flat-pickr>
+                        </div>
+                        <div class="col-md-3">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12 mt-2">
                             <label>{{$ml.get('frame')}}</label>
@@ -103,6 +111,8 @@
                 title_ar: null,
                 title_en: null,
                 link: null,
+                category: null,
+                suggest_categories: [],
                 date: new Date(),
                 customToolbar: [
                     ["bold", "italic", "underline"],
@@ -111,15 +121,29 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_VIDEO,)
+                    .then(response => {
+                        console.log(response.data)
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postvideos(e) {
                 let vm = this;
+                vm.$Progress.start();
                 e.preventDefault();
                 let formData = new FormData();
                 formData.append('title_ar', vm.title_ar);
                 formData.append('title_en', vm.title_en);
                 formData.append('link', vm.link);
                 formData.append('date', vm.date);
+                formData.append('category', vm.category);
 
                 axios
                     .post(apiServiesRoutes.BASE_URL + apiServiesRoutes.VIDEO_CREATE, formData, {
@@ -128,6 +152,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -138,7 +163,6 @@
                         }
 
                         if (status) {
-
                             Vue.$toast.open({
                                 message: vm.$ml.get('_success'),
                                 type: 'info'
@@ -146,6 +170,7 @@
 
                             vm.title_ar = null;
                             vm.title_en = null;
+                            vm.category = null;
                             vm.date = new Date();
                             vm.$router.push({name: 'all_videos'});
                         } else {

@@ -40,14 +40,14 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
-<!--                        <div class="col-md-3">-->
-<!--                            <label>{{$ml.get('author')}}</label>-->
-<!--                            <input type="text" class="input" v-model="author" name="author" required-->
-<!--                                   autocomplete="off">-->
-<!--                        </div>-->
+                        <!--                        <div class="col-md-3">-->
+                        <!--                            <label>{{$ml.get('author')}}</label>-->
+                        <!--                            <input type="text" class="input" v-model="author" name="author" required-->
+                        <!--                                   autocomplete="off">-->
+                        <!--                        </div>-->
                         <div class="col-md-12"></div>
                         <div class="col-md-3 mt-2">
                             <label>{{$ml.get('images')}}</label>
@@ -58,6 +58,14 @@
                             <label>{{$ml.get('file')}}</label>
                             <input type="file" class="input" name="file" ref="file" required
                                    autocomplete="off">
+                        </div>
+                        <div class="col-md-3 mt-2 ">
+                            <label>{{$ml.get('category')}}</label>
+                            <input list="suggest" type="text" class="input" v-model="category" name="category" required
+                                   autocomplete="off">
+                            <datalist id="suggest">
+                                <option v-for="item in suggest_categories" :value="item"></option>
+                            </datalist>
                         </div>
                         <div class="col-md-12"></div>
                         <div class="col-md-6 mt-5">
@@ -120,6 +128,8 @@
                 image: null,
                 file: null,
                 author: null,
+                category: null,
+                suggest_categories: [],
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{list: "ordered"}, {list: "bullet"}],
@@ -127,9 +137,21 @@
                 ]
             }
         },
+        mounted() {
+            this.getSuggest();
+        },
         methods: {
+            getSuggest() {
+                let vm = this;
+                axios
+                    .get(apiServiesRoutes.BASE_URL + apiServiesRoutes.AUTO_COMPLETE_BOOK,)
+                    .then(response => {
+                        vm.suggest_categories = response.data.data.categories;
+                    });
+            },
             postbooks(e) {
                 let vm = this;
+                vm.$Progress.start();
                 e.preventDefault();
                 let formData = new FormData();
                 vm.image = vm.$refs.image.files[0];
@@ -142,6 +164,7 @@
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
                 formData.append('author', vm.author);
+                formData.append('category', vm.category);
 
                 // for (var value of formData.values()) {
                 //     console.log(value);
@@ -164,6 +187,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;
@@ -188,6 +212,7 @@
                             vm.publisher_name_en = null;
                             vm.date = new Date();
                             vm.slug = null;
+                            vm.category = null;
                             vm.images = [];
                             vm.$router.push({name: 'all_books'});
                         } else {

@@ -10,16 +10,16 @@
                 <input name="first_name" required="required" autocomplete="off" v-model="query"
                        :placeholder="$ml.get('filter')" class="input mt-2">
             </div>
-            <!--            <div class="col-md-4">-->
-            <!--                <input name="first_name" required="required" autocomplete="off" class="input mt-2">-->
-            <!--            </div>-->
             <div class="col-md-12 text-center mt-2">
                 <button class="primary-button" @click="getVideos">
                     {{$ml.get('filter')}}
                 </button>
             </div>
             <div class="col-md-12 mt-2"></div>
-            <div class="col-md-6" v-for="(video , key) in videos" :key="key" v-html="video.link"></div>
+            <div class="col-md-6" v-for="(video , key) in videos" :key="key">
+                <h3>{{video[currentLang].title}}</h3>
+                <div v-html="video.link"></div>
+            </div>
             <div class="col-md-12 text-center" v-if="page_count > 0">
                 <paginate
                         v-model="page"
@@ -49,7 +49,7 @@
     import Vue from 'vue'
     import Paginate from 'vuejs-paginate'
 
-    Vue.component('paginate', Paginate)
+    Vue.component('paginate', Paginate);
 
     export default {
         name: "VideosPlaylist",
@@ -80,6 +80,7 @@
                         page: page_number,
                         lng: vm.currentLang,
                         limit: 2,
+                        category: vm.$route.params.category,
                         query: vm.query
                     }
                 }).then(response => {

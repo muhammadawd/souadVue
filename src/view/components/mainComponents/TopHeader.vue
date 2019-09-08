@@ -22,7 +22,7 @@
 
             <!-- search & aside toggle -->
             <div class="nav-btns">
-                <button class="aside-btn"><i class="fas fa-bars"></i></button>
+                <button class="aside-btn hidden-lg hidden-md"><i class="fas fa-bars"></i></button>
                 <!--<button class="search-btn"><i class="fas fa-search"></i></button>-->
                 <div id="nav-search">
                     <form>

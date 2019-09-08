@@ -12,9 +12,10 @@
                     <router-link class="post-img"
                                  :to="{ name: 'show_news',params:{slug:currentNews.slug}}"
                                  tag="a">
-                        <img v-for="_image in currentNews.images" :src="_image.fileName" class="swiper-lazy"
+                        <img v-for="(_image,key) in currentNews.images" :key="key" v-if="key == 0"
+                             :src="_image.fileName" class="swiper-lazy"
                              alt="">
-<!--                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>-->
+                        <!--                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>-->
                     </router-link>
                     <div class="post-body">
                         <div class="post-category">
@@ -53,12 +54,13 @@
                     <div class="col-md-12">
                         <div id="swiper-container" class="swiper-container">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" v-for="(_news,key) in news" :key="key">
-                                    <div class="post post-widget  direction">
+                                <div class="swiper-slide" v-for="(_news,key) in news" :key="key" style="width: 100%;">
+                                    <div class="post post-widget text-right direction" style="width: 100%;">
                                         <router-link class="post-img"
                                                      :to="{ name: 'show_news',params:{slug:_news.slug}}"
                                                      tag="a">
-                                            <img v-for="image in _news.images" :src="image.fileName" class="swiper-lazy"
+                                            <img v-for="(image,key) in _news.images" :key="key" v-if="key == 0"
+                                                 :src="image.fileName" class="swiper-lazy"
                                                  alt="">
                                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                                         </router-link>

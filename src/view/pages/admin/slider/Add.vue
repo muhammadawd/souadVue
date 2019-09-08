@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('title_en')}}</label>
-                            <input type="text" class="input" v-model="title_en" name="title_en" required
+                            <input type="text" class="input" v-model="title_en" name="title_en"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-6 mt-5">
                             <label>{{$ml.get('description_en')}}</label>
-                            <textarea type="text" class="input" v-model="description_en" name="description_en" required
+                            <textarea type="text" class="input" v-model="description_en" name="description_en"
                                       autocomplete="off"></textarea>
                         </div>
                         <div class="col-md-12 text-center">
@@ -120,6 +120,7 @@
         methods: {
             postslider(e) {
                 let vm = this;
+                vm.$Progress.start();
                 e.preventDefault();
                 let formData = new FormData();
                 vm.images = vm.$refs.images.files[0];
@@ -136,6 +137,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish();
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;

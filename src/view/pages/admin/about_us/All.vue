@@ -58,18 +58,25 @@
                                     <input type="text" class="input" v-model="instagram" name="instagram" required
                                            autocomplete="off">
                                 </div>
+                                <div class="col-md-3 mt-2">
+                                    <label>{{$ml.get('for_issues')}}</label>
+                                    <input type="text" class="input" v-model="for_issues" name="for_issues" required
+                                           autocomplete="off">
+                                </div>
 
                                 <div class="col-md-6 mt-2">
                                     <label>{{$ml.get('description_ar')}}</label>
-                                    <textarea type="text" class="input" v-model="description_ar" name="description_ar"
-                                              required
-                                              autocomplete="off"></textarea>
+                                    <vue-editor v-model="description_ar"></vue-editor>
+                                    <!--                                    <textarea type="text" class="input" v-model="description_ar" name="description_ar"-->
+                                    <!--                                              required-->
+                                    <!--                                              autocomplete="off"></textarea>-->
                                 </div>
                                 <div class="col-md-6 mt-2">
                                     <label>{{$ml.get('description_en')}}</label>
-                                    <textarea type="text" class="input" v-model="description_en" name="description_en"
-                                              required
-                                              autocomplete="off"></textarea>
+                                    <vue-editor v-model="description_en"></vue-editor>
+                                    <!--                                    <textarea type="text" class="input" v-model="description_en" name="description_en"-->
+                                    <!--                                              required-->
+                                    <!--                                              autocomplete="off"></textarea>-->
                                 </div>
                                 <div class="col-md-12 mt-2">
                                     <label>{{$ml.get('map')}}</label>
@@ -141,6 +148,7 @@
     import AdminTopHeaderSide from '../../../components/mainComponents/AdminTopHeaderSide'
     import MainPage from '../../../components/adminComponents/MainPage'
     import Footer from '../../../components/mainComponents/Footer'
+    import {VueEditor} from "vue2-editor";
     // main.js
     import Vue from 'vue';
     import VueSweetalert2 from 'vue-sweetalert2';
@@ -153,7 +161,7 @@
     Vue.use(VueSweetalert2, options);
     export default {
         name: "All",
-        components: {Loader, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer},
+        components: {Loader, VueEditor, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer},
         data() {
             return {
                 isLoading: false,
@@ -167,9 +175,9 @@
                 facebook: null,
                 twitter: null,
                 instagram: null,
+                for_issues: null,
                 map: null,
-                images: null,
-
+                images: []
             }
         },
         created() {
@@ -183,6 +191,7 @@
             },
             getabout_us(page_number = 1) {
                 let vm = this;
+
                 vm.page = page_number;
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.ABOUT_ALL).then(response => {
                     console.log(response.data);
@@ -202,6 +211,7 @@
                         vm.instagram = about_us.instagram;
                         vm.map = about_us.map;
                         vm.images = about_us.images;
+                        vm.for_issues = about_us.for_issues;
 
                         //         vm.about_us = about_us.data;
                         //         vm.page_range = about_us.perPage;
@@ -214,12 +224,14 @@
             postAbout(e) {
 
                 let vm = this;
+                vm.$Progress.start()
                 e.preventDefault();
                 let formData = new FormData();
                 vm.images = vm.$refs.images.files;
                 for (let i = 0; i < vm.images.length; i++) {
                     formData.append(`images[${i}]`, vm.images[i]);
                 }
+                formData.append('for_issues', vm.for_issues);
                 formData.append('description_ar', vm.description_ar);
                 formData.append('description_en', vm.description_en);
                 formData.append('location_ar', vm.location_ar);
@@ -238,6 +250,7 @@
                         }
                     })
                     .then(response => {
+                        vm.$Progress.finish()
                         let auth = response.data.auth;
                         let status = response.data.status;
                         let data = response.data.data;

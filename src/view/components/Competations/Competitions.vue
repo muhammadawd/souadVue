@@ -200,6 +200,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.COMPETITIONS_FINISHED_ALL, {
                     params: {
                         page: page_number,
+                        category: vm.$route.params.category,
                         limit: 2
                     }
                 }).then(response => {
@@ -221,6 +222,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.COMPETITIONS_AVAILABLE_ALL, {
                     params: {
                         page: page_number,
+                        category: vm.$route.params.category,
                         limit: 2
                     }
                 }).then(response => {

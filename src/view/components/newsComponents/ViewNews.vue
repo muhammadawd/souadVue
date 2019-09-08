@@ -6,9 +6,33 @@
             <div class="col-md-3"></div>
             <div class="col-md-6" v-if="currentNews">
                 <div class="post">
-                    <a class="post-img" href="#">
-                        <img v-for="(image,key) in currentNews.images" :key="key" :src="image.fileName" alt="">
-                    </a>
+
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item" v-for="(image,key) in currentNews.images" :key="key"
+                                 :class="key == 0 ? 'active': ''">
+                                <img :src="image.fileName" alt="" style="height: 500px;width: 100%">
+<!--                                <div class="carousel-caption">-->
+<!--                                    ...-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+<!--                    <a class="post-img" href="#">-->
+<!--                        <img v-for="(image,key) in currentNews.images" :key="key" :src="image.fileName" alt="">-->
+<!--                    </a>-->
                     <div class="post-body">
                         <div class="post-category">
                             <a href="#">{{currentNews[currentLang].publisher_name}} </a>
@@ -41,9 +65,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <p class="smalls" v-html="currentNews[currentLang].description">
 
-                        </p>
+                        <p class="smalls" v-html="currentNews[currentLang].description"></p>
                     </div>
 
                     <div class="form_contact ">
@@ -116,6 +139,7 @@
             let vm = this;
             let params = this.$route.params;
 
+            require('@/assets/js/bootstrap.min.js')
             vm.getCurrentNews(params.slug)
         },
         data() {
@@ -144,6 +168,9 @@
                     if (response.data.status) {
                         vm.currentNews = response.data.data.news;
                         vm.news_id = response.data.data.news._id;
+                        setTimeout(() => {
+                            $('.carousel').carousel()
+                        },100);
                     }
                     // return news;
                 })

@@ -21,6 +21,12 @@
                         </div>
                         <p class="contact-p"> {{about.email}}</p>
                     </li>
+                    <li>
+                        <div class="icon-content">
+                            <i class="fas fa-phone fa-2x main-color"></i>
+                        </div>
+                        <p class="contact-p">{{$ml.get('for_issues')}}: {{about.for_issues}}</p>
+                    </li>
                 </ul>
                 <div class="section-title mt-5">
                     <h1 class="title title-custom bg-transparent">{{$ml.get('socail_media')}}</h1>
