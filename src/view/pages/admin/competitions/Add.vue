@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-3">
                             <label>{{$ml.get('location')}}</label>
-                            <input type="text" class="input" v-model="location" name="location" required
+                            <input type="text" class="input" v-model="location" name="location"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-12"></div>

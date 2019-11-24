@@ -22,7 +22,7 @@
                                 {{current_news[currentLang].title}}
                             </router-link>
                         </h3>
-                        <p class="small" v-html="current_news[currentLang].description"></p>
+<!--                        <p class="small" v-html="current_news[currentLang].description"></p>-->
                         <ul class="post-meta">
                             <li>
                                 <router-link
@@ -73,7 +73,7 @@
                                     </li>
                                     <li> {{_new.date}}</li>
                                 </ul>
-                                <p class="small" v-html="_new[currentLang].description"></p>
+<!--                                <p class="small" v-html="_new[currentLang].description"></p>-->
 
                                 <div class="post-category pull-left">
                                     <router-link :to="{ name: 'show_news',params:{slug:_new.slug,id:_new._id}}" tag="a">

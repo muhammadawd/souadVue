@@ -30,7 +30,7 @@
                                 {{currentNews[currentLang].title}}
                             </router-link>
                         </h3>
-                        <p class="small text-ellipsis" v-html="currentNews[currentLang].description"></p>
+<!--                        <p class="small text-ellipsis" v-html="currentNews[currentLang].description"></p>-->
                         <ul class="post-meta">
                             <li>
                                 <router-link
@@ -60,7 +60,7 @@
                                                      :to="{ name: 'show_news',params:{slug:_news.slug}}"
                                                      tag="a">
                                             <img v-for="(image,key) in _news.images" :key="key" v-if="key == 0"
-                                                 :src="image.fileName" class="swiper-lazy"
+                                                 :src="image.fileName" class="swiper-lazy" height="70px"
                                                  alt="">
                                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                                         </router-link>
@@ -72,8 +72,8 @@
                                                     {{_news[currentLang].title}}
                                                 </router-link>
                                             </h3>
-                                            <p class="small text-ellipsis" v-html="_news[currentLang].description"></p>
-                                            <div class="post-category pull-left">
+<!--                                            <p class="small text-ellipsis " v-html="_news[currentLang].description"></p>-->
+                                            <div class="post-category pull-right">
                                                 <router-link
                                                         :to="{ name: 'show_news',params:{slug:_news.slug}}"
                                                         tag="a">

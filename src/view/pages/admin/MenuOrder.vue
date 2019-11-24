@@ -21,16 +21,19 @@
                                 <tbody>
                                 <slot v-for="(nav_item,_key) in NBar">
                                     <tr>
-                                        <td class="text-right">{{nav_item[currentLang].title}}</td>
+                                        <td class="text-right">{{nav_item[currentLang].title}}
+                                            <input type="text" class="input form-control" :id="'main_category_'+_key"
+                                                   :value="nav_item[currentLang].title">
+                                        </td>
                                         <td width="150" class="text-center">
                                             <input type="text" class="input form-control" :id="'item_'+nav_item._id"
                                                    :value="nav_item.order">
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-warning"
-                                                        @click="updateElement(nav_item)">
-                                                    <i class="fas fa-check"></i>
+                                                <button class="btn btn-primary"
+                                                        @click="updateElement(nav_item,_key)">
+                                                    <i class="fas fa-edit"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -161,9 +164,9 @@
                                     type: 'success',
                                     title: vm.$ml.get('_success')
                                 });
-                                setTimeout(()=>{
+                                setTimeout(() => {
                                     location.reload()
-                                },1000)
+                                }, 1000)
                                 return true;
                             }
                             vm.$swal({
@@ -175,11 +178,12 @@
                     }
                 })
             },
-            updateElement(element) {
-                // console.log(element);
+            updateElement(element, _key) {
+                let category = $('#main_category_' + _key).val();
                 let vm = this;
                 axios.post(apiServiesRoutes.BASE_URL + apiServiesRoutes.NAV_BAR_ORDER, {
                     id: element._id,
+                    title_ar: category,
                     order: $('#item_' + element._id).val()
                 }).then(response => {
                     if (response.data.status) {
