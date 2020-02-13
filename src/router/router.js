@@ -237,7 +237,7 @@ let router = new Router({
             name: 'about_person',
             component: AboutPerson,
             meta: {
-                title: 'عن سعاد الصباحي',
+                title: 'عن سعاد الصباح',
                 guest: true
             }
         },
@@ -564,7 +564,7 @@ let router = new Router({
             name: 'all_souad_about_us',
             component: AllSouadAboutUs,
             meta: {
-                title: 'لوحة التحكم - عن سعاد الصباحي',
+                title: 'لوحة التحكم - عن سعاد الصباح',
                 requiresAuth: true
             }
         },

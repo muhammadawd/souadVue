@@ -46,7 +46,7 @@
                                          exact-active-class="active">
                                 <div class="service_element" data-950="top:-150px;right:-80px"
                                      data-1550="top:0;right:0px">
-                                    <h4>قصائد سعاد الصباحي</h4>
+                                    <h4>قصائد سعاد الصباح</h4>
                                     <img src="@/assets/images/mail-old-school-icon.png" class="img-responsive"
                                          width="50"
                                          alt="">
@@ -59,7 +59,7 @@
                                          exact-active-class="active">
                                 <div class="service_element" data-950="top:-150px;left:-80px"
                                      data-1550="top:0;left:0px">
-                                    <h4>قالو عن سعاد الصباحي</h4>
+                                    <h4>قالو عن سعاد الصباح</h4>
                                     <img src="@/assets/images/mail-old-school-icon.png" class="img-responsive"
                                          width="50"
                                          alt="">
