@@ -11,39 +11,29 @@
                             <a href="" class="logo"><img src="@/assets/images/logo.png" width="90" alt=""></a>
                         </div>
                         <p class="text-white">{{$ml.get('footer_p')}}</p>
-<!--                        <ul class="contact-social">-->
-<!--                            <li><a :href="staticInfo.facebook_url" target="_blank" class="social-facebook"><i-->
-<!--                                    class="fab fa-facebook"></i></a></li>-->
-<!--                            <li><a :href="staticInfo.twitter_url" target="_blank" class="social-twitter"><i-->
-<!--                                    class="fab fa-twitter"></i></a></li>-->
-<!--                            <li><a :href="staticInfo.instagram_url" target="_blank" class="social-instagram"><i-->
-<!--                                    class="fab fa-instagram"></i></a></li>-->
-<!--                        </ul>-->
+                        <!--                        <ul class="contact-social">-->
+                        <!--                            <li><a :href="staticInfo.facebook_url" target="_blank" class="social-facebook"><i-->
+                        <!--                                    class="fab fa-facebook"></i></a></li>-->
+                        <!--                            <li><a :href="staticInfo.twitter_url" target="_blank" class="social-twitter"><i-->
+                        <!--                                    class="fab fa-twitter"></i></a></li>-->
+                        <!--                            <li><a :href="staticInfo.instagram_url" target="_blank" class="social-instagram"><i-->
+                        <!--                                    class="fab fa-instagram"></i></a></li>-->
+                        <!--                        </ul>-->
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="footer-widget">
                         <h3 class="footer-title">{{$ml.get('tags')}}</h3>
                         <div class="tags-widget">
-                            <ul>
-                                <li><a href="#">كتب</a></li>
-                                <li><a href="#">مقالات</a></li>
-                                <li><a href="#">فيديوهات</a></li>
-                                <li><a href="#">منشورات</a></li>
-                                <li><a href="#">اخبار</a></li>
-                                <li><a href="#">اخر الاحداث</a></li>
-                                <li><a href="#">كتب</a></li>
-                                <li><a href="#">مقالات</a></li>
-                                <li><a href="#">فيديوهات</a></li>
-                                <li><a href="#">منشورات</a></li>
-                                <li><a href="#">اخبار</a></li>
-                                <li><a href="#">اخر الاحداث</a></li>
-                                <li><a href="#">كتب</a></li>
-                                <li><a href="#">مقالات</a></li>
-                                <li><a href="#">فيديوهات</a></li>
-                                <li><a href="#">منشورات</a></li>
-                                <li><a href="#">اخبار</a></li>
-                                <li><a href="#">اخر الاحداث</a></li>
+                            <ul v-for="(nav_item, key) in NBar" :key="key">
+                                <li v-if="nav_item.categories.length > 0" v-for="(category , _key) in nav_item.categories" :key="_key">
+
+                                    <router-link :to="{ name: nav_item.name,params: {category:category}}"
+                                                 tag="a" active-class="actives" class="black"
+                                                 exact-active-class="active">{{category}}
+                                    </router-link>
+                                    <!--                                    <a href="#">{{item}}</a>-->
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -101,11 +91,29 @@
         data() {
             return {
                 staticInfo: GLOBALINFO,
+                NBar: null,
                 email: null,
                 currentLang: this.$ml.current
             }
         },
+        mounted() {
+            this.getMenuItems();
+        },
         methods: {
+            getMenuItems() {
+                let vm = this;
+
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NAV_BAR, {
+                    params: {
+                        lang: vm.currentLang
+                    }
+                }).then(response => {
+                    if (response.data.status) {
+                        vm.NBar = response.data.data.navbar;
+                        console.log(vm.NBar)
+                    }
+                });
+            },
             postSubscribe(e) {
                 let vm = this;
                 e.preventDefault();

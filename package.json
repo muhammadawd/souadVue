@@ -19,6 +19,7 @@
     "tiptap": "^1.23.0",
     "tiptap-extensions": "^1.24.0",
     "vue": "^2.6.10",
+    "vue-cropperjs": "^4.0.1",
     "vue-flatpickr-component": "^8.1.2",
     "vue-full-calendar": "^2.7.0",
     "vue-multilanguage": "^4.0.8",

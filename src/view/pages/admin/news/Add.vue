@@ -124,11 +124,14 @@
     import 'vue-toast-notification/dist/index.css';
     import 'flatpickr/dist/flatpickr.css';
 
+    import VueCropper from 'vue-cropperjs';
+    import 'cropperjs/dist/cropper.css';
+
     Vue.use(VueToast);
 
     export default {
         name: "Add",
-        components: {VueEditor, Loader, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer, flatPickr},
+        components: {VueEditor, Loader, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer, flatPickr,VueCropper},
         data() {
             return {
                 title_ar: null,
