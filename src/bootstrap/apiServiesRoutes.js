@@ -1,6 +1,7 @@
 module.exports = {
     BASE_URL: 'http://souad-alsabah.com:3333/api',
     // BASE_URL: 'http://approc.com:3333/api',
+    // BASE_URL: 'http://localhost:3355/api',
     // BASE_URL: 'http://172.81.117.216:3333/api',
     // BASE_URL: 'http://3.92.38.153:3336/api',
     // BASE_URL: 'http://192.168.1.100:3333/api',
