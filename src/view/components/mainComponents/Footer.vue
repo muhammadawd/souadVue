@@ -25,9 +25,10 @@
                     <div class="footer-widget">
                         <h3 class="footer-title">{{$ml.get('tags')}}</h3>
                         <div class="tags-widget">
-                            <ul>
+                            <ul style="height: 170px;overflow: hidden;">
                                 <span v-for="(nav_item, key) in NBar">
-                                    <li v-if="nav_item.categories.length > 0" v-for="(category , _key) in nav_item.categories" :key="_key">
+                                    <li v-if="nav_item.categories.length > 0"
+                                        v-for="(category , _key) in nav_item.categories" :key="_key">
 
                                         <router-link :to="{ name: nav_item.name,params: {category:category}}"
                                                      tag="a" active-class="actives" class="black"
@@ -111,7 +112,8 @@
                     }
                 }).then(response => {
                     if (response.data.status) {
-                        vm.NBar = response.data.data.navbar;
+                        // vm.NBar = response.data.data.navbar;
+                        vm.NBar = Object.assign([], response.data.data.navbar).reverse();
                         console.log(vm.NBar)
                     }
                 });

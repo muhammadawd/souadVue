@@ -175,6 +175,36 @@
             this.getSuggest();
         },
         methods: {
+            b64toBlob(b64Data, contentType, sliceSize) {
+                contentType = contentType || '';
+                sliceSize = sliceSize || 512;
+
+                var byteCharacters = atob(b64Data);
+                var byteArrays = [];
+
+                for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                    var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                    var byteNumbers = new Array(slice.length);
+                    for (var i = 0; i < slice.length; i++) {
+                        byteNumbers[i] = slice.charCodeAt(i);
+                    }
+
+                    var byteArray = new Uint8Array(byteNumbers);
+
+                    byteArrays.push(byteArray);
+                }
+
+                var blob = new Blob(byteArrays, {type: contentType});
+                return blob;
+            },
+            blobToFile(theBlob, fileName) {
+                theBlob.lastModifiedDate = new Date();
+                theBlob.lastModified = new Date().getTime();
+                theBlob.name = fileName;
+                return theBlob;
+                // return new File(theBlob, fileName);
+            },
             setImages() {
                 let vm = this;
                 let files = vm.$refs.images.files;
@@ -214,14 +244,37 @@
 
                 e.preventDefault();
                 let formData = new FormData();
+
+                // let promises = $.map(vm.images_before_crop, function (img, i) {
+                //     return new Promise(function (resolve) {
+                //         // vm.$refs[`cropper${i}`][0].getCroppedCanvas().toBlob(resolve, 'image/jpeg', 0.75);
+                //         vm.$refs[`cropper${i}`][0].cropper('getCroppedCanvas', {}).toBlob(resolve, 'image/jpeg', 0.75);
+                //     });
+                // });
+                //
+                // Promise.all(promises, function (blobs) {
+                //     console.log(blobs);
+                // });
+                let all_cropper_data = [];
                 for (let i = 0; i < vm.images_before_crop.length; i++) {
-                    // console.log(vm.$refs[`cropper${i}`][0].getCroppedCanvas().toBlob())
-                    console.log(vm.$refs[`cropper${i}`][0].getCroppedCanvas())
-                    // vm.$refs[`cropper${i}`][0].getCroppedCanvas().toBlob((blob) => {
-                    //     formData.append(`images[${i}]`, blob);
-                    // });
+                    all_cropper_data.push(vm.$refs[`cropper${i}`][0].getCroppedCanvas().toDataURL())
                 }
-                return '';
+                $.each(all_cropper_data, function (k, data) {
+                    let block = data.split(";");
+                    let contentType = block[0].split(":")[1];
+                    let realData = block[1].split(",")[1];
+                    let image_file = vm.b64toBlob(realData, contentType);
+                    let extension = '';
+                    try {
+                        extension = image_file.type.split('/')[1];
+                    } catch (e) {
+                        extension = 'jpg'
+                    }
+                    let image_file_name = `image_${k}_name_example.${extension}`;
+                    image_file = vm.blobToFile(image_file, image_file_name)
+                    console.log(image_file)
+                    formData.append(`images[${k}]`, image_file)
+                });
                 formData.append('title_ar', vm.title_ar);
                 formData.append('title_en', vm.title_en);
                 formData.append('description_ar', vm.description_ar);
