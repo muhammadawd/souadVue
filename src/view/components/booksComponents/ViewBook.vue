@@ -16,27 +16,27 @@
                         <h3>{{currentBook[currentLang].title}}</h3>
                         <div class="aside-widget">
                             <div class="social-widget">
-                                <ul>
-                                    <li>
-                                        <a class="social-facebook" data-sharer="facebook"
-                                           :data-title="currentBook[currentLang].title"
-                                           :data-url="currentLink" v-sharer>
-                                            <i class="fab fa-facebook"></i>
-                                            <span>{{$ml.get('share_facebook')}}</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="social-twitter" data-sharer="twitter"
-                                           :data-title="currentBook[currentLang].title"
-                                           :data-url="currentLink" v-sharer>
-                                            <i class="fab fa-twitter"></i>
-                                            <span>{{$ml.get('share_twitter')}}</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <!--<ul>-->
+                                <!--<li>-->
+                                <!--<a class="social-facebook" data-sharer="facebook"-->
+                                <!--:data-title="currentBook[currentLang].title"-->
+                                <!--:data-url="currentLink" v-sharer>-->
+                                <!--<i class="fab fa-facebook"></i>-->
+                                <!--<span>{{$ml.get('share_facebook')}}</span>-->
+                                <!--</a>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                <!--<a class="social-twitter" data-sharer="twitter"-->
+                                <!--:data-title="currentBook[currentLang].title"-->
+                                <!--:data-url="currentLink" v-sharer>-->
+                                <!--<i class="fab fa-twitter"></i>-->
+                                <!--<span>{{$ml.get('share_twitter')}}</span>-->
+                                <!--</a>-->
+                                <!--</li>-->
+                                <!--</ul>-->
                             </div>
                         </div>
-                        <p v-html="currentBook[currentLang].description"> </p>
+                        <p v-html="currentBook[currentLang].description"></p>
                     </div>
                     <div class="text-center">
                         <a :href="currentBook.file" target="_blank" class="primary-button danger-button mt-5">
@@ -47,6 +47,18 @@
                            class="primary-button mt-5">
                             {{$ml.get('download')}}
                             <i class="fas fa-download"></i>
+                        </a>
+                        <a class="primary-button mt-5 social-facebook" data-sharer="facebook"
+                           :data-title="currentBook[currentLang].title"
+                           :data-url="currentLink" v-sharer>
+                            {{$ml.get('share_facebook')}}
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a class="primary-button mt-5 social-twitter" data-sharer="twitter"
+                           :data-title="currentBook[currentLang].title"
+                           :data-url="currentLink" v-sharer>
+                            {{$ml.get('share_twitter')}}
+                            <i class="fab fa-twitter"></i>
                         </a>
                     </div>
                 </div>

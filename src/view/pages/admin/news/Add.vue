@@ -52,6 +52,7 @@
                         <div class="col-md-3">
                             <label>{{$ml.get('images')}}</label>
                             <input type="file" class="input" name="images" ref="images" required multiple
+                                   @change="setImages"
                                    autocomplete="off">
                         </div>
                         <div class="col-md-3 mt-2">
@@ -85,6 +86,20 @@
                         <div class="col-md-6 mt-5">
                             <label>{{$ml.get('description_en')}}</label>
                             <vue-editor v-model="description_en"></vue-editor>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <div class="row">
+                                <div class="col-md-3" v-for="(image , k) in images_before_crop" :key="k">
+                                    <section class="cropper-area">
+                                        <div class="img-cropper">
+                                            <vue-cropper :src="image"
+                                                         :aspect-ratio="1 / 1"
+                                                         :ref="'cropper'+k"
+                                                         alt=""></vue-cropper>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12 text-center">
                             <button class="primary-button mt-2">{{$ml.get('submit')}}</button>
@@ -131,7 +146,7 @@
 
     export default {
         name: "Add",
-        components: {VueEditor, Loader, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer, flatPickr,VueCropper},
+        components: {VueEditor, Loader, AdminTopHeader, AdminTopHeaderSide, MainPage, Footer, flatPickr, VueCropper},
         data() {
             return {
                 title_ar: null,
@@ -140,7 +155,9 @@
                 description_en: null,
                 publisher_name_ar: null,
                 publisher_name_en: null,
-                images: null,
+                images: [],
+                images_before_crop: [],
+                images_after_crop: [],
                 links: [],
                 tags: [],
                 suggest_categories: [],
@@ -158,6 +175,30 @@
             this.getSuggest();
         },
         methods: {
+            setImages() {
+                let vm = this;
+                let files = vm.$refs.images.files;
+
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    if (file.type.indexOf('image/') === -1) {
+                        console.log('Please select an image file');
+                        return;
+                    }
+                    if (typeof FileReader === 'function') {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            vm.images_before_crop.push(event.target.result)
+                            // this.imgSrc = event.target.result;
+                            // this.$refs.cropper.replace(event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        console.log('Sorry, FileReader API not supported');
+                    }
+                }
+                console.log(files)
+            },
             getSuggest() {
                 let vm = this;
                 axios
@@ -169,14 +210,18 @@
             postNews(e) {
 
                 let vm = this;
-                vm.$Progress.start()
+                vm.$Progress.start();
 
                 e.preventDefault();
                 let formData = new FormData();
-                let files = vm.$refs.images.files;
-                for (let i = 0; i < files.length; i++) {
-                    formData.append(`images[${i}]`, files[i]);
+                for (let i = 0; i < vm.images_before_crop.length; i++) {
+                    // console.log(vm.$refs[`cropper${i}`][0].getCroppedCanvas().toBlob())
+                    console.log(vm.$refs[`cropper${i}`][0].getCroppedCanvas())
+                    // vm.$refs[`cropper${i}`][0].getCroppedCanvas().toBlob((blob) => {
+                    //     formData.append(`images[${i}]`, blob);
+                    // });
                 }
+                return '';
                 formData.append('title_ar', vm.title_ar);
                 formData.append('title_en', vm.title_en);
                 formData.append('description_ar', vm.description_ar);

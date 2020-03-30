@@ -94,6 +94,9 @@
             vm.getsubscribes()
         },
         methods: {
+            triggerGetPaginateData(page_num) {
+                this.getsubscribes(page_num)
+            },
             getsubscribes(page_number = 1) {
                 let vm = this;
                 vm.page = page_number;

@@ -128,10 +128,10 @@
                             items: 1
                         },
                         600: {
-                            items: 8
+                            items: 7
                         },
                         1000: {
-                            items: 8
+                            items: 7
                         }
                     }
                 }).trigger('to.owl.carousel', le)

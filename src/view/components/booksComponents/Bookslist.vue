@@ -71,7 +71,7 @@
         },
         methods: {
             triggerGetPaginateData(page_num) {
-                console.log(page_num)
+                this.getBooks(page_num)
             },
             getBooks(page_number = 1) {
                 let vm = this;

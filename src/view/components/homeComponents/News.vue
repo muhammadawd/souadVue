@@ -13,7 +13,7 @@
                                  :to="{ name: 'show_news',params:{slug:currentNews.slug}}"
                                  tag="a">
                         <img v-for="(_image,key) in currentNews.images" :key="key" v-if="key == 0"
-                             :src="_image.fileName" class="swiper-lazy"
+                             :src="_image.fileName" class="swiper-lazy" height="500"
                              alt="">
                         <!--                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>-->
                     </router-link>

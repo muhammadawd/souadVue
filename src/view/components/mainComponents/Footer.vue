@@ -25,15 +25,17 @@
                     <div class="footer-widget">
                         <h3 class="footer-title">{{$ml.get('tags')}}</h3>
                         <div class="tags-widget">
-                            <ul v-for="(nav_item, key) in NBar" :key="key">
-                                <li v-if="nav_item.categories.length > 0" v-for="(category , _key) in nav_item.categories" :key="_key">
+                            <ul>
+                                <span v-for="(nav_item, key) in NBar">
+                                    <li v-if="nav_item.categories.length > 0" v-for="(category , _key) in nav_item.categories" :key="_key">
 
-                                    <router-link :to="{ name: nav_item.name,params: {category:category}}"
-                                                 tag="a" active-class="actives" class="black"
-                                                 exact-active-class="active">{{category}}
-                                    </router-link>
-                                    <!--                                    <a href="#">{{item}}</a>-->
-                                </li>
+                                        <router-link :to="{ name: nav_item.name,params: {category:category}}"
+                                                     tag="a" active-class="actives" class="black"
+                                                     exact-active-class="active">{{category}}
+                                        </router-link>
+                                        <!--                                    <a href="#">{{item}}</a>-->
+                                    </li>
+                                </span>
                             </ul>
                         </div>
                     </div>
