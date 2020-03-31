@@ -43,41 +43,46 @@
                             <h1 class="title title-custom bg-transparent">{{$ml.get('latest_news')}} </h1>
                         </div>
                     </div>
-                    <div v-for="(_new,key) in news" :key="key" v-if="key != 0" class="col-md-12">
-                        <div class="post post-row">
-                            <div class="post-img" @click="current_news = _new" style="cursor: pointer">
-                                <img v-for="(image,key) in _new.images" :key="key" v-if="key == 0" :src="image.fileName"
-                                     height="140" alt="">
-                            </div>
-                            <div class="post-body" @click="current_news = _new" style="cursor: pointer">
-                                <div class="post-category">
-                                    {{_new[currentLang].publisher_name}}
-                                </div>
-                                <h3 class="post-title">
-                                    {{_new[currentLang].title}}
-                                </h3>
-                                <ul class="post-meta">
-                                    <li>
-                                        {{_new[currentLang].publisher_name}}
-                                    </li>
-                                    <li> {{_new.date}}</li>
-                                </ul>
-                                <!--                                <p class="small" v-html="_new[currentLang].description"></p>-->
+                    <div class="col-md-12"  style="max-height: 600px;overflow-x: scroll">
+                        <div class="row">
 
-                                <div class="post-category pull-left">
-                                    <router-link :to="{ name: 'show_news',params:{slug:_new.slug,id:_new._id}}" tag="a">
-                                        {{$ml.get('more')}}
-                                    </router-link>
+                            <div v-for="(_new,key) in news" :key="key" v-if="key != 0" class="col-md-12">
+                                <div class="post post-row">
+                                    <div class="post-img" @click="current_news = _new" style="cursor: pointer">
+                                        <img v-for="(image,key) in _new.images" :key="key" v-if="key == 0" :src="image.fileName"
+                                             height="140" alt="">
+                                    </div>
+                                    <div class="post-body" @click="current_news = _new" style="cursor: pointer">
+                                        <div class="post-category">
+                                            {{_new[currentLang].publisher_name}}
+                                        </div>
+                                        <h3 class="post-title">
+                                            {{_new[currentLang].title}}
+                                        </h3>
+                                        <ul class="post-meta">
+                                            <li>
+                                                {{_new[currentLang].publisher_name}}
+                                            </li>
+                                            <li> {{_new.date}}</li>
+                                        </ul>
+                                        <!--                                <p class="small" v-html="_new[currentLang].description"></p>-->
+
+                                        <div class="post-category pull-left">
+                                            <router-link :to="{ name: 'show_news',params:{slug:_new.slug,id:_new._id}}" tag="a">
+                                                {{$ml.get('more')}}
+                                            </router-link>
+                                        </div>
+                                    </div>
                                 </div>
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <infinite-loading @infinite="infiniteHandler">
+                                    <div slot="no-more"></div>
+                                    <div slot="no-results"></div>
+                                </infinite-loading>
                             </div>
                         </div>
-                        <hr>
-                    </div>
-                    <div class="col-md-12">
-                        <infinite-loading @infinite="infiniteHandler">
-                            <div slot="no-more"></div>
-                            <div slot="no-results"></div>
-                        </infinite-loading>
                     </div>
                 </div>
             </div>
@@ -164,7 +169,7 @@
                     let news = [];
                     if (response.data.status) {
                         if (vm.page == 1) {
-                            if (response.data.data.news.data.length > 0){
+                            if (response.data.data.news.data.length > 0) {
                                 vm.current_news = response.data.data.news.data[0]
                             }
                         }

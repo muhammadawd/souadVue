@@ -51,8 +51,19 @@
                 </div>
 
                 <div class="row ">
-                    <div class="col-md-12">
-                        <div id="swiper-container" class="swiper-container" style="overflow-y: scroll">
+                    <div class="col-md-12" style="position:relative;">
+                        <div style="position: absolute;left: 0px;top: 0px;width: 100%;">
+                                <div class="swiper-button-prev" style="position: relative;height: 15px;left: 0px;margin-right: auto;"></div>
+                                <div class="swiper-button-next" style="position: relative;height: 15px;right: 0;top: 7px;"></div>
+                        </div>
+
+                        <div id="swiper-container" class="swiper-container">
+
+                            <!-- If we need navigation buttons -->
+
+                            <!--&lt;!&ndash; If we need scrollbar &ndash;&gt;-->
+                            <!--<div class="swiper-scrollbar"></div>-->
+
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide" v-for="(_news,key) in news" :key="key" style="width: 100%;">
                                     <div class="post post-widget text-right direction" style="width: 100%;">
@@ -142,6 +153,11 @@
                     autoplay: {
                         delay: 2500,
                         disableOnInteraction: false,
+                    },
+                    // Navigation arrows
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
                     },
                     loop: true,
                     spaceBetween: 30,

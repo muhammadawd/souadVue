@@ -34,8 +34,17 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-4">
-                            <input name="query" r autocomplete="off" v-model="query" :placeholder="$ml.get('filter')" @keyup.enter="getNews(1)"
+                            <input name="query" autocomplete="off" v-model="query" :placeholder="$ml.get('filter')"
+                                   @keyup.enter="getNews(1)"
                                    class="input mt-2">
+                        </div>
+                        <div class="col-md-2">
+                            <label>LIMIT</label>
+                            <select class="form-control" v-model="limit">
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
                         </div>
                         <div class="col-md-12 text-center mt-2" style="margin-bottom: 15px">
                             <button class="primary-button" @click="getNews(1)">
@@ -143,11 +152,17 @@
                 isLoading: false,
                 currentLang: this.$ml.current,
                 page: 1,
+                limit: 50,
                 page_count: 1,
                 page_range: 1,
                 query: null,
                 news: [],
                 current_news: null
+            }
+        },
+        watch: {
+            limit: function (to, from) {
+                this.getNews()
             }
         },
         created() {
@@ -165,7 +180,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_PAGE, {
                     params: {
                         page: page_number,
-                        limit: 10,
+                        limit: vm.limit,
                         query: vm.query
                     }
                 }).then(response => {

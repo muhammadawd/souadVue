@@ -37,6 +37,14 @@
                             <input name="query" r autocomplete="off" v-model="query" :placeholder="$ml.get('filter')" @keyup.enter="getarticles(1)"
                                    class="input mt-2">
                         </div>
+                        <div class="col-md-2">
+                            <label>LIMIT</label>
+                            <select class="form-control" v-model="limit">
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                         <div class="col-md-12 text-center mt-2" style="margin-bottom: 15px">
                             <button class="primary-button" @click="getarticles(1)">
                                 {{$ml.get('filter')}}
@@ -144,6 +152,7 @@
                 currentLang: this.$ml.current,
                 page: 1,
                 page_count: 1,
+                limit: 50,
                 page_range: 1,
                 query: null,
                 articles: [],
@@ -153,6 +162,11 @@
         created() {
             let vm = this;
             vm.getarticles()
+        },
+        watch: {
+            limit: function (to, from) {
+                this.getarticles()
+            }
         },
         methods: {
             triggerGetPaginateData(page_num) {
@@ -165,7 +179,7 @@
                 axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.ARTICLE_ALL, {
                     params: {
                         page: page_number,
-                        limit: 10,
+                        limit: vm.limit,
                         query: vm.query
                     }
                 }).then(response => {
