@@ -30,7 +30,7 @@
                                 {{currentNews[currentLang].title}}
                             </router-link>
                         </h3>
-<!--                        <p class="small text-ellipsis" v-html="currentNews[currentLang].description"></p>-->
+                        <!--                        <p class="small text-ellipsis" v-html="currentNews[currentLang].description"></p>-->
                         <ul class="post-meta">
                             <li>
                                 <router-link
@@ -52,7 +52,7 @@
 
                 <div class="row ">
                     <div class="col-md-12">
-                        <div id="swiper-container" class="swiper-container">
+                        <div id="swiper-container" class="swiper-container" style="overflow-y: scroll">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide" v-for="(_news,key) in news" :key="key" style="width: 100%;">
                                     <div class="post post-widget text-right direction" style="width: 100%;">
@@ -72,7 +72,7 @@
                                                     {{_news[currentLang].title}}
                                                 </router-link>
                                             </h3>
-<!--                                            <p class="small text-ellipsis " v-html="_news[currentLang].description"></p>-->
+                                            <!--                                            <p class="small text-ellipsis " v-html="_news[currentLang].description"></p>-->
                                             <div class="post-category pull-right">
                                                 <router-link
                                                         :to="{ name: 'show_news',params:{slug:_news.slug}}"
@@ -154,18 +154,30 @@
                     }
                     vm.currentNews = vm.news[vm.currentIndex] != undefined ? vm.news[vm.currentIndex] : null;
                 });
+
+                $(".swiper-container").hover(function () {
+                    console.log('stop swipper')
+                    mySwiper.autoplay.stop();
+                }, function () {
+                    console.log('start swipper')
+                    mySwiper.autoplay.start();
+                    // mySwiper.stopAutoplay();
+                });
+                // mySwiper.startAutoplay();
+                // mySwiper.stopAutoplay();
             },
             getNews() {
                 let vm = this;
 
-                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_ALL, {
+                axios.get(apiServiesRoutes.BASE_URL + apiServiesRoutes.NEWS_PAGE, {
                     params: {
-                        lang: vm.currentLang
+                        lang: vm.currentLang,
+                        limit: 10
                     }
                 }).then(response => {
                     let news = [];
                     if (response.data.status) {
-                        vm.news = response.data.data.news;
+                        vm.news = response.data.data.news.data;
                         if (vm.news[0] != undefined) {
                             vm.currentNews = vm.news[0]
                         }

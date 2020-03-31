@@ -22,6 +22,7 @@
     "vue-cropperjs": "^4.0.1",
     "vue-flatpickr-component": "^8.1.2",
     "vue-full-calendar": "^2.7.0",
+    "vue-infinite-loading": "^2.4.5",
     "vue-multilanguage": "^4.0.8",
     "vue-owl-carousel": "^2.0.3",
     "vue-progressbar": "^0.7.5",
